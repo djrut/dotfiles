@@ -47,9 +47,9 @@ set cpoptions+=n
 " }}}
 " Tab/Indent settings {{{
 "
-set tabstop=2         " number of visual spaces per TAB
-set shiftwidth=2      " 
-set softtabstop=2     " number of spaces in tab when editing
+set tabstop=4         " number of visual spaces per TAB
+set shiftwidth=4      " 
+set softtabstop=4     " number of spaces in tab when editing
 set expandtab         " tabs are spaces
 set autoindent
 " }}}
@@ -182,8 +182,8 @@ augroup configgroup
 	autocmd BufEnter *.sh setlocal tabstop=2
 	autocmd BufEnter *.sh setlocal shiftwidth=2
 	autocmd BufEnter *.sh setlocal softtabstop=2
-  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-	autocmd BufNewFile,BufRead *.yaml,*.yml,*.jinja so ~/.vim/yaml.vim
+    autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+	" autocmd BufNewFile,BufRead *.yaml,*.yml so ~/.vim/yaml.vim
 	autocmd BufNewFile,BufRead *.asm set syntax=acme.vim
 augroup END
 " }}}
@@ -235,19 +235,13 @@ let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_python_binary_path = 'python'
 " }}}
 " Plugin configuration {{{
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'vundlevim/vundle.vim'
 Plugin 'sheerun/vim-polyglot'
-" Plugin 'vim-ruby/vim-ruby'
-" Plugin 'pangloss/vim-javascript'
-" Plugin 'crusoexia/vim-javascript-lib'
-" Plugin 'elzr/vim-json'
-" Plugin 'vimjas/vim-python-pep8-indent'
-" Plugin 'vim-scripts/indentpython.vim'
-" Plugin 'nvie/vim-flake8'
 Plugin 'moll/vim-node'
 Plugin 'artur-shaik/vim-javacomplete2'
 Plugin 'majutsushi/tagbar'
@@ -273,7 +267,8 @@ Plugin 'valloric/youcompleteme'
 Plugin 'ternjs/tern_for_vim'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'bling/vim-airline'
-Plugin 'lepture/vim-jinja'
+Plugin 'glench/vim-jinja2-syntax'
+Plugin 'digitalrounin/vim-yaml-folds'
 Plugin 'raimondi/delimitmate'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'tmux-plugins/vim-tmux-focus-events'

@@ -1,3 +1,43 @@
+" Plugin configuration {{{
+call plug#begin('~/.vim/plugged')
+Plug 'sheerun/vim-polyglot'
+Plug 'crusoexia/vim-monokai'
+Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+Plug 'majutsushi/tagbar', { 'on':  'TagbarToggle'  }
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)']  }
+Plug 'mhinz/vim-signify'
+Plug 'mhinz/vim-startify'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-dispatch'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-entire'
+Plug 'kana/vim-textobj-function'
+Plug 'kana/vim-textobj-line'
+Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-rooter'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/syntastic'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer' }
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'bling/vim-airline'
+Plug 'glench/vim-jinja2-syntax'
+Plug 'digitalrounin/vim-yaml-folds'
+Plug 'raimondi/delimitmate'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-system-copy'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'edkolev/tmuxline.vim'
+call plug#end()
+" }}}
 " Features {{{
 "
 set nocompatible                        " We're running Vim, not Vi!
@@ -12,6 +52,7 @@ packadd! matchit
 "
 set showcmd
 set cursorline
+" set colorcolumn=80
 set lazyredraw
 set showmode
 set backspace=indent,eol,start
@@ -35,8 +76,8 @@ set wildignore+=*.swp,.lock,.DS_Store,._*
 "
 set t_Co=256
 set background=dark
-let python_highlight_all=1
 colorscheme monokai 
+let python_highlight_all=1
 " }}}
 " Line numbering {{{
 "
@@ -128,6 +169,53 @@ set hlsearch            " highlight matches
 " turn off search highlight
 nnoremap <leader><space> :nohlsearch<CR>
 " }}}
+" FuzzyFind settings {{{
+"
+" This is the default extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~30%' }
+
+" In Neovim, you can set up fzf window using a Vim command
+" let g:fzf_layout = { 'window': 'enew' }
+" let g:fzf_layout = { 'window': '-tabnew' }
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+" }}}
+" Grepper settings {{{
+"
+" Maps the operator for normal and visual mode.
+" In normal mode, the operator gs takes any motion and uses that selection to populate the search prompt. The query is quoted automatically.
+" Useful examples are gsW, gsiw, or gsi".
+" In visual mode, it uses the current selection.
+"
+nmap gs  <plug>(GrepperOperator)
+xmap gs  <plug>(GrepperOperator)
+" }}}
 " Folding settings {{{
 " 
 set foldenable          " enable folding
@@ -197,26 +285,12 @@ else
 	let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 " }}}
-"CtrlP {{{
-" 
-let g:ctrlp_map = '<leader>.'
-let g:ctrlp_cmd = 'CtrlPMixed'
-"let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_root_markers = ['pom.xml', '.p4ignore']
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-"let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-let g:ctrlp_match_window_bottom = 0
-let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr|svn)($|[/\\])|__init__\.py'
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_dotfiles = 0
-let g:ctrlp_switch_buffer = 0
-" }}}
 " Airline {{{
 "
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#ale#enabled = 1
 set laststatus=2
 " }}}
 " Syntastic {{{
@@ -228,6 +302,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
+let g:syntastic_yaml_checkers = ['yamllint']
 " }}}
 " YouCompleteMe settings  {{{
 let g:ycm_add_preview_to_completeopt=0
@@ -236,43 +311,6 @@ set completeopt-=preview
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_python_binary_path = 'python'
-" }}}
-" Plugin configuration {{{
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'vundlevim/vundle.vim'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'moll/vim-node'
-Plugin 'artur-shaik/vim-javacomplete2'
-Plugin 'majutsushi/tagbar'
-Plugin 'ludovicchabant/vim-gutentags'
-Plugin 'mhinz/vim-grepper'
-Plugin 'mhinz/vim-signify'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-dispatch'
-Plugin 'kana/vim-textobj-user'
-Plugin 'kana/vim-textobj-entire'
-Plugin 'kana/vim-textobj-function'
-Plugin 'kana/vim-textobj-line'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'airblade/vim-rooter'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'valloric/youcompleteme'
-Plugin 'ternjs/tern_for_vim'
-Plugin 'junegunn/vim-easy-align'
-Plugin 'bling/vim-airline'
-Plugin 'glench/vim-jinja2-syntax'
-Plugin 'digitalrounin/vim-yaml-folds'
-Plugin 'raimondi/delimitmate'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'tmux-plugins/vim-tmux-focus-events'
-call vundle#end()            " required
 " }}}
 " Functions {{{
 " toggle between number and relativenumber

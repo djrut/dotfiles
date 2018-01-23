@@ -4,8 +4,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'crusoexia/vim-monokai'
 Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 Plug 'majutsushi/tagbar', { 'on':  'TagbarToggle'  }
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)']  }
+Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-unimpaired'
@@ -20,8 +19,8 @@ Plug 'kana/vim-textobj-function'
 Plug 'kana/vim-textobj-line'
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'nathanaelkane/vim-indent-guides', { 'on': 'IndentGuidesToggle' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'scrooloose/syntastic'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
@@ -35,7 +34,7 @@ Plug 'raimondi/delimitmate'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-system-copy'
 Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'edkolev/tmuxline.vim'
+Plug 'leissa/vim-acme'
 call plug#end()
 " }}}
 " Features {{{
@@ -81,7 +80,6 @@ let python_highlight_all=1
 " }}}
 " Line numbering {{{
 "
-set relativenumber
 set number
 set numberwidth=5
 set cpoptions+=n
@@ -105,8 +103,6 @@ set nostartofline                     " "
 " }}}
 " Keyboard Mappings {{{
 "
-" move vertically by visual line
-nnoremap j gj
 nnoremap k gk
 " Window navigation
 nnoremap <C-j> <C-w>j
@@ -122,6 +118,12 @@ noremap   <Up>     <NOP>
 noremap   <Down>   <NOP>
 noremap   <Left>   <NOP>
 noremap   <Right>  <NOP>
+" Invoke FuzzyFind for files
+nnoremap <leader>f :Files<CR>
+" Invoke FuzzyFind for tags
+nnoremap <leader>t :Tags<CR>
+" Invoke FuzzyFind for buffers
+nnoremap <leader>b :Buffers<CR>
 " space open/closes folds
 nnoremap <space> za
 " Toggle relative line numbering
@@ -129,9 +131,9 @@ nnoremap <leader>l :setlocal relativenumber!<CR>
 " Enable easy paste toggling
 nnoremap <leader>p :set invpaste paste?<CR>
 " Tag Bar
-nnoremap <leader>t :TagbarToggle<CR>
+nnoremap <leader>T :TagbarToggle<CR>
 " Invoke ctags
-nnoremap <leader>T :!ctags -R .<CR>
+nnoremap <leader>ct :!ctags -R .<CR>
 " Nerdtree
 nnoremap <leader>n :NERDTreeToggle<CR>
 " save session
@@ -150,6 +152,8 @@ nnoremap <leader>m :make<CR>
 nnoremap <leader>g :Grepper -tool ag -noswitch -highlight <cr>
 " Invoke Grepper with ack for current selection/focus
 nnoremap <leader>* :Grepper -tool ag -cword -noprompt -noswitch -highlight<cr>
+" Close Quickfix window
+nnoremap <leader>x :cclose<CR>
 " }}}
 " Airline  {{{
 "
@@ -215,6 +219,9 @@ let g:fzf_history_dir = '~/.local/share/fzf-history'
 "
 nmap gs  <plug>(GrepperOperator)
 xmap gs  <plug>(GrepperOperator)
+let g:grepper = {}            " initialize g:grepper with empty dictionary
+runtime plugin/grepper.vim    " initialize g:grepper with default values
+let g:grepper.quickfix = 1
 " }}}
 " Folding settings {{{
 " 
@@ -224,6 +231,7 @@ set foldnestmax=10
 set foldmethod=indent   " fold based on indent level
 " }}}
 " DelimitMate {{{
+let delimitMate_offByDefault = 1
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
 " }}}
@@ -305,9 +313,6 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_yaml_checkers = ['yamllint']
 " }}}
 " YouCompleteMe settings  {{{
-let g:ycm_add_preview_to_completeopt=0
-let g:ycm_confirm_extra_conf=0
-set completeopt-=preview
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_python_binary_path = 'python'

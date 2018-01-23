@@ -6,7 +6,7 @@ export ZSH=/Users/djrut/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="agnoster"
+ZSH_THEME="gallois"
 [[ $TMUX = ""  ]] && export TERM="xterm-256color"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -93,10 +93,14 @@ alias kc="kubectl"
 alias gc="gcloud"
 alias gce="gcloud compute"
 alias gae="gcloud app"
-alias gke="gcloud container clusters"
+alias gke="gcloud container"
 alias gdd="gcloud deployment-manager"
 alias act="source activate"
 alias dact="source deactivate"
+alias gcca="gcloud config configurations activate"
+alias gccl="gcloud config configurations list"
+alias gssh="gcloud compute ssh"
+alias gis="gcloud iam service-accounts"
 
 # The next line updates PATH for the Google Cloud SDK.
 source '/Users/djrut/projects/google-cloud-sdk/path.zsh.inc'
@@ -105,3 +109,13 @@ source '/Users/djrut/projects/google-cloud-sdk/path.zsh.inc'
 source '/Users/djrut/projects/google-cloud-sdk/completion.zsh.inc'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Autocomplete configuration for kubectl
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
+fi
+
+# Autocomplete configuration for helm
+if [ $commands[helm] ]; then
+  source <(helm completion zsh)
+fi

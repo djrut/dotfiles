@@ -9,5 +9,4 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 # http://b/34182819
 export SK_SIGNING_PLUGIN=gnubbyagent
 
-# eval "$(pyenv init -)"
-# eval "$(pyenv virtualenv-init -)"
+export DIRENV_WARN_TIMEOUT=10s

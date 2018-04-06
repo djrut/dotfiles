@@ -27,8 +27,9 @@ Plug 'kana/vim-textobj-line'
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'nathanaelkane/vim-indent-guides', { 'on': 'IndentGuidesToggle' }
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'junegunn/vim-easy-align'
@@ -58,7 +59,7 @@ packadd! matchit
 "
 set showcmd
 set cursorline
-" set colorcolumn=80
+set colorcolumn=80
 set lazyredraw
 set showmode
 set backspace=indent,eol,start
@@ -141,15 +142,11 @@ nnoremap <leader>p :set invpaste paste?<CR>
 nnoremap <leader>T :TagbarToggle<CR>
 " Invoke ctags
 nnoremap <leader>ct :!ctags -R .<CR>
-" Nerdtree
-nnoremap <leader>n :NERDTreeToggle<CR>
 " save session
 nnoremap <leader>S :mksession<CR>
-" Toggle Syntastic
-nnoremap <leader>s :SyntasticToggleMode<CR>
+" Toggle ALE
+nnoremap <leader>a :ALEToggle<CR>
 " Run Syntastic check
-nnoremap <leader>sc :SyntasticCheck<CR>
-" Jump to keyword definition
 nnoremap <leader>gd  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " Show change window
 nnoremap <leader>c :changes<CR>
@@ -308,16 +305,23 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#ale#enabled = 1
 set laststatus=2
 " }}}
+" ALE {{{
+let g:ale_sign_column_always = 1
+let g:airline#extensions#ale#enabled = 1
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
+" }}}
 " Syntastic {{{
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': []  }
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_yaml_checkers = ['yamllint']
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': []  }
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_yaml_checkers = ['yamllint']
 " }}}
 " YouCompleteMe settings  {{{
 let g:ycm_autoclose_preview_window_after_completion=1

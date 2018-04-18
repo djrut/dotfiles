@@ -27,8 +27,6 @@ Plug 'kana/vim-textobj-line'
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'nathanaelkane/vim-indent-guides', { 'on': 'IndentGuidesToggle' }
-" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-" Plug 'scrooloose/syntastic'
 Plug 'w0rp/ale'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
@@ -43,6 +41,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-system-copy'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'leissa/vim-acme'
+Plug 'gioele/vim-autoswap'
 call plug#end()
 " }}}
 " Features {{{

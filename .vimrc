@@ -93,10 +93,9 @@ set cpoptions+=n
 " }}}
 " Tab/Indent settings {{{
 "
-set tabstop=4         " number of visual spaces per TAB
-set shiftwidth=4      " 
-set softtabstop=4     " number of spaces in tab when editing
-set expandtab         " tabs are spaces
+set expandtab
+set shiftwidth=2
+set softtabstop=2
 set autoindent
 " }}}
 " Buffers and splits {{{
@@ -244,46 +243,46 @@ let g:rooter_patterns = ['pom.xml','.git/']
 " }}}
 " Autocommands {{{
 augroup configgroup
-	autocmd!
-	autocmd VimEnter * highlight clear SignColumn
-	autocmd FileType java setlocal noexpandtab
-	autocmd FileType java setlocal nolist
-	autocmd FileType java setlocal listchars=tab:+\ ,eol:-
-	autocmd FileType java setlocal formatprg=par\ -w80\ -T4
-  autocmd Filetype java set makeprg=javac\ %
-  autocmd Filetype java set errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
-  autocmd FileType java setlocal omnifunc=javacomplete#Complete
-  autocmd Filetype javascript set makeprg=jshint\ %
-	autocmd FileType php setlocal expandtab
-	autocmd FileType php setlocal list
-	autocmd FileType php setlocal listchars=tab:+\ ,eol:-
-	autocmd FileType php setlocal formatprg=par\ -w80\ -T4
-	autocmd FileType ruby setlocal tabstop=2
-	autocmd FileType ruby setlocal shiftwidth=2
-	autocmd FileType ruby setlocal softtabstop=2
-	autocmd FileType ruby setlocal commentstring=#\ %s
-	autocmd FileType ruby compiler ruby
-	autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1 
-	autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-	autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-  autocmd FileType python set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
-	autocmd FileType python setlocal commentstring=#\ %s
-	autocmd FileType python set makeprg=python\ %
-	autocmd FileType json set autoindent
-	autocmd FileType json set formatoptions=tcq2l
-	autocmd FileType json set textwidth=78 shiftwidth=2
-	autocmd FileType json set softtabstop=2 tabstop=8
-	autocmd FileType json set expandtab
-	autocmd FileType json set foldmethod=syntax
-	autocmd BufEnter *.cls setlocal filetype=java
-	autocmd BufEnter *.zsh-theme setlocal filetype=zsh
-	autocmd BufEnter Makefile setlocal noexpandtab
-	autocmd BufEnter *.sh setlocal tabstop=2
-	autocmd BufEnter *.sh setlocal shiftwidth=2
-	autocmd BufEnter *.sh setlocal softtabstop=2
+    autocmd!
+    autocmd VimEnter * highlight clear SignColumn
+    autocmd FileType java setlocal noexpandtab
+    autocmd FileType java setlocal nolist
+    autocmd FileType java setlocal listchars=tab:+\ ,eol:-
+    autocmd FileType java setlocal formatprg=par\ -w80\ -T4
+    autocmd Filetype java set makeprg=javac\ %
+    autocmd Filetype java set errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
+    autocmd FileType java setlocal omnifunc=javacomplete#Complete
+    autocmd Filetype javascript set makeprg=jshint\ %
+    autocmd FileType php setlocal expandtab
+    autocmd FileType php setlocal list
+    autocmd FileType php setlocal listchars=tab:+\ ,eol:-
+    autocmd FileType php setlocal formatprg=par\ -w80\ -T4
+    autocmd FileType ruby setlocal tabstop=2
+    autocmd FileType ruby setlocal shiftwidth=2
+    autocmd FileType ruby setlocal softtabstop=2
+    autocmd FileType ruby setlocal commentstring=#\ %s
+    autocmd FileType ruby compiler ruby
+    autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1 
+    autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+    autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+    autocmd FileType python set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
+    autocmd FileType python setlocal commentstring=#\ %s
+    autocmd FileType python set makeprg=python\ %
+    autocmd FileType json set autoindent
+    autocmd FileType json set formatoptions=tcq2l
+    autocmd FileType json set textwidth=78 shiftwidth=2
+    autocmd FileType json set softtabstop=2 tabstop=8
+    autocmd FileType json set expandtab
+    autocmd FileType json set foldmethod=syntax
+    autocmd BufEnter *.cls setlocal filetype=java
+    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
+    autocmd BufEnter Makefile setlocal noexpandtab
+    autocmd BufEnter *.sh setlocal tabstop=2
+    autocmd BufEnter *.sh setlocal shiftwidth=2
+    autocmd BufEnter *.sh setlocal softtabstop=2
     autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-	" autocmd BufNewFile,BufRead *.yaml,*.yml so ~/.vim/yaml.vim
-	autocmd BufNewFile,BufRead *.asm set syntax=acme.vim
+    " autocmd BufNewFile,BufRead *.yaml,*.yml so ~/.vim/yaml.vim
+    autocmd BufNewFile,BufRead *.asm set syntax=acme.vim
 augroup END
 " }}}
 " tmux settings {{{

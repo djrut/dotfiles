@@ -14,7 +14,7 @@ ZSH_THEME="gallois"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git osx ruby node npm history brew colorize ssh-agent)
+plugins=(git history colorize ssh-agent)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -69,3 +69,20 @@ if [ -f '/home/djrut/google-cloud-sdk/path.zsh.inc' ]; then source '/home/djrut/
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/djrut/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/djrut/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Start vim with Obsession enabled unless Session already exists
+function vim() {
+  if test $# -gt 0; then
+    env vim "$@"
+  elif test -f Session.vim; then
+    env vim -S
+  else
+    env vim -c Obsession
+  fi
+}
+
+gcloud_staging () {
+       gcloud config set api_endpoint_overrides/deploymentmanager https://www.googleapis.com/deploymentmanager/staging_v2/
+       gcloud "$@"
+       gcloud config unset api_endpoint_overrides/deploymentmanager
+}

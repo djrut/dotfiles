@@ -20,6 +20,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-obsession'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-function'
@@ -42,6 +43,7 @@ Plug 'christoomey/vim-system-copy'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'leissa/vim-acme'
 Plug 'gioele/vim-autoswap'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 " }}}
 " Features {{{

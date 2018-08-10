@@ -25,7 +25,7 @@ source $ZSH/oh-my-zsh.sh
 #
 alias cl="clear"
 alias kc="kubectl"
-alias gc="gcloud"
+alias kcx="kubectl config use-context"
 alias gce="gcloud compute"
 alias gae="gcloud app"
 alias gke="gcloud container"

@@ -37,6 +37,7 @@ alias gccl="gcloud config configurations list"
 alias gssh="gcloud compute ssh"
 alias gis="gcloud iam service-accounts"
 alias kcx='kubectl config use-context'
+alias kcl='kubectl config get-contexts'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

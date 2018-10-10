@@ -112,11 +112,13 @@ set nostartofline                     " "
 " Keyboard Mappings {{{
 "
 nnoremap k gk
+
 " Window navigation
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
+
 " Disable arrow keys
 inoremap  <Up>     <NOP>
 inoremap  <Down>   <NOP>
@@ -126,38 +128,44 @@ noremap   <Up>     <NOP>
 noremap   <Down>   <NOP>
 noremap   <Left>   <NOP>
 noremap   <Right>  <NOP>
+
+" Fast Alt key mappings section
+"
 " Invoke FuzzyFind for files
-nnoremap <leader>f :Files<CR>
+nnoremap <M-f> :Files<CR>
 " Invoke FuzzyFind for tags
-nnoremap <leader>t :Tags<CR>
+nnoremap <M-t> :Tags<CR>
 " Invoke FuzzyFind for buffers
-nnoremap <leader>b :Buffers<CR>
+nnoremap <M-b> :Buffers<CR>
+" Invoke Grepper with ack
+nnoremap <M-g> :Grepper -tool ag -noswitch -highlight <cr>
+" Enable easy paste toggling
+nnoremap <M-p> :set invpaste paste?<CR>
+" Toggle ALE
+nnoremap <M-a> :ALEToggle<CR>
+" Close Quickfix window
+nnoremap <M-x> :cclose<CR>
+" Show change window
+nnoremap <M-c> :changes<CR>
 " space open/closes folds
 nnoremap <space> za
+
+" Leader key mappings
+"
 " Toggle relative line numbering
 nnoremap <leader>l :setlocal relativenumber!<CR>
-" Enable easy paste toggling
-nnoremap <leader>p :set invpaste paste?<CR>
 " Tag Bar
-nnoremap <leader>T :TagbarToggle<CR>
+nnoremap <leader>t :TagbarToggle<CR>
 " Invoke ctags
 nnoremap <leader>ct :!ctags -R .<CR>
 " save session
 nnoremap <leader>S :mksession<CR>
-" Toggle ALE
-nnoremap <leader>a :ALEToggle<CR>
 " Run Syntastic check
 nnoremap <leader>gd  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" Show change window
-nnoremap <leader>c :changes<CR>
 " Invoke compiler
 nnoremap <leader>m :make<CR>
-" Invoke Grepper with ack
-nnoremap <leader>g :Grepper -tool ag -noswitch -highlight <cr>
 " Invoke Grepper with ack for current selection/focus
 nnoremap <leader>* :Grepper -tool ag -cword -noprompt -noswitch -highlight<cr>
-" Close Quickfix window
-nnoremap <leader>x :cclose<CR>
 " }}}
 " Airline  {{{
 "

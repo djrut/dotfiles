@@ -132,21 +132,30 @@ noremap   <Right>  <NOP>
 " Fast Alt key mappings section
 "
 " Invoke FuzzyFind for files
+execute "set <M-f>=\ef"
 nnoremap <M-f> :Files<CR>
 " Invoke FuzzyFind for tags
+execute "set <M-t>=\et"
 nnoremap <M-t> :Tags<CR>
 " Invoke FuzzyFind for buffers
+execute "set <M-b>=\eb"
 nnoremap <M-b> :Buffers<CR>
 " Invoke Grepper with ack
+execute "set <M-g>=\eg"
 nnoremap <M-g> :Grepper -tool ag -noswitch -highlight <cr>
 " Enable easy paste toggling
+execute "set <M-p>=\ep"
 nnoremap <M-p> :set invpaste paste?<CR>
 " Toggle ALE
+execute "set <M-a>=\ea"
 nnoremap <M-a> :ALEToggle<CR>
 " Close Quickfix window
+execute "set <M-x>=\ex"
 nnoremap <M-x> :cclose<CR>
 " Show change window
+execute "set <M-c>=\ec"
 nnoremap <M-c> :changes<CR>
+
 " space open/closes folds
 nnoremap <space> za
 

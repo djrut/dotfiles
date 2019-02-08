@@ -1,6 +1,6 @@
 export DEFAULT_USER=djrut
 # Path to your oh-my-zsh installation.
-export ZSH=/home/djrut/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -67,10 +67,10 @@ export -f show_conda_env > /dev/null 2>&1
 export PS1="\$(show_conda_env)${PS1}"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/djrut/google-cloud-sdk/path.zsh.inc' ]; then source '/home/djrut/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '~/google-cloud-sdk/path.zsh.inc' ]; then source '~/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/djrut/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/djrut/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '~/google-cloud-sdk/completion.zsh.inc' ]; then source '~/google-cloud-sdk/completion.zsh.inc'; fi
 
 # Start vim with Obsession enabled unless Session already exists
 function vim() {

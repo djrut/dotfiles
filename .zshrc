@@ -57,14 +57,31 @@ eval "$(direnv hook zsh)"
 # fix for direnv not handling changes to PS1
 # https://github.com/direnv/direnv/wiki/Python#restoring-the-ps1
 #
-show_conda_env() {
-  if [ -n "${CONDA_DEFAULT_ENV}" ]; then
-    echo "(${CONDA_DEFAULT_ENV}) "
+# show_conda_env() {
+#   if [ -n "${CONDA_DEFAULT_ENV}" ]; then
+#     echo "(${CONDA_DEFAULT_ENV}) "
+#   fi
+# }
+
+# export -f show_conda_env > /dev/null 2>&1
+# export PS1="\$(show_conda_env)${PS1}"
+show_gcloud_config() {
+  if [[ -n "${CLOUDSDK_ACTIVE_CONFIG_NAME}" ]]; then
+    echo "[$CLOUDSDK_ACTIVE_CONFIG_NAME]"
+  elif [[ -s ~/.config/gcloud/active_config ]]; then
+    echo "[$(cat ~/.config/gcloud/active_config)]"
   fi
 }
 
-export -f show_conda_env > /dev/null 2>&1
-export PS1="\$(show_conda_env)${PS1}"
+show_virtual_env() {
+  if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+    echo "($(basename $VIRTUAL_ENV))"
+  fi
+}
+
+export -f show_virtual_env > /dev/null 2>&1
+PS1='$(show_gcloud_config)$(show_virtual_env)'$PS1
+
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '~/google-cloud-sdk/path.zsh.inc' ]; then source '~/google-cloud-sdk/path.zsh.inc'; fi

@@ -323,12 +323,18 @@ let g:airline#extensions#ale#enabled = 1
 set laststatus=2
 " }}}
 " ALE {{{
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_sign_column_always = 1
 let g:airline#extensions#ale#enabled = 1
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
 let g:ale_open_list = 1
 let g:ale_keep_list_window_open = 1
+highlight ALEError ctermbg=DarkRed
+highlight ALEWarning ctermbg=LightRed
+" let g:ale_completion_enabled = 1
 " }}}
 " Syntastic {{{
 " set statusline+=%#warningmsg#
@@ -345,6 +351,13 @@ let g:ale_keep_list_window_open = 1
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_python_binary_path = 'python'
+let g:ycm_python_interpreter_path = ''
+let g:ycm_python_sys_path = []
+let g:ycm_extra_conf_vim_data = [
+  \  'g:ycm_python_interpreter_path',
+  \  'g:ycm_python_sys_path'
+  \]
+let g:ycm_global_ycm_extra_conf = '~/global_extra_conf.py'
 " }}}
 " Functions {{{
 " toggle between number and relativenumber

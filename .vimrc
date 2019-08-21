@@ -29,8 +29,12 @@ Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'nathanaelkane/vim-indent-guides', { 'on': 'IndentGuidesToggle' }
 Plug 'w0rp/ale'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer' }
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer' }
+" Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'davidhalter/jedi-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -129,6 +133,8 @@ noremap   <Down>   <NOP>
 noremap   <Left>   <NOP>
 noremap   <Right>  <NOP>
 
+" Close buffer without screwing up splits
+nnoremap <C-c> :bp\|bd #<CR>
 " Fast Alt key mappings section
 "
 " Invoke FuzzyFind for files
@@ -348,16 +354,19 @@ highlight ALEWarning ctermbg=LightRed
 " let g:syntastic_yaml_checkers = ['yamllint']
 " }}}
 " YouCompleteMe settings  {{{
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_python_binary_path = 'python'
-let g:ycm_python_interpreter_path = ''
-let g:ycm_python_sys_path = []
-let g:ycm_extra_conf_vim_data = [
-  \  'g:ycm_python_interpreter_path',
-  \  'g:ycm_python_sys_path'
-  \]
-let g:ycm_global_ycm_extra_conf = '~/global_extra_conf.py'
+" let g:ycm_autoclose_preview_window_after_completion=1
+" let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_python_binary_path = 'python'
+" let g:ycm_python_interpreter_path = ''
+" let g:ycm_python_sys_path = []
+" let g:ycm_extra_conf_vim_data = [
+"   \  'g:ycm_python_interpreter_path',
+"   \  'g:ycm_python_sys_path'
+"   \]
+" let g:ycm_global_ycm_extra_conf = '~/global_extra_conf.py'
+" }}}
+" Deoplete settings  {{{
+" let g:deoplete#enable_at_startup = 1
 " }}}
 " Functions {{{
 " toggle between number and relativenumber

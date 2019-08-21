@@ -175,6 +175,9 @@ nnoremap <leader>gd  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>m :make<CR>
 " Invoke Grepper with ack for current selection/focus
 nnoremap <leader>* :Grepper -tool ag -cword -noprompt -noswitch -highlight<cr>
+
+" Buffer delete without messing with split panes
+nnoremap <C-c> :bp\|bd #<CR>
 " }}}
 " Airline  {{{
 "

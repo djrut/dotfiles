@@ -38,6 +38,7 @@ alias gssh="gcloud compute ssh"
 alias gis="gcloud iam service-accounts"
 alias kcx='kubectl config use-context'
 alias kcl='kubectl config get-contexts'
+alias glog='git --no-pager log --pretty=oneline --decorate -n16'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -57,20 +58,25 @@ eval "$(direnv hook zsh)"
 # fix for direnv not handling changes to PS1
 # https://github.com/direnv/direnv/wiki/Python#restoring-the-ps1
 #
-# show_conda_env() {
-#   if [ -n "${CONDA_DEFAULT_ENV}" ]; then
-#     echo "(${CONDA_DEFAULT_ENV}) "
-#   fi
-# }
+show_conda_env() {
+  if [ -n "${CONDA_DEFAULT_ENV}" ]; then
+    echo "(${CONDA_DEFAULT_ENV}) "
+  fi
+}
 
-# export -f show_conda_env > /dev/null 2>&1
-# export PS1="\$(show_conda_env)${PS1}"
+export -f show_conda_env > /dev/null 2>&1
+
 show_gcloud_config() {
   if [[ -n "${CLOUDSDK_ACTIVE_CONFIG_NAME}" ]]; then
     echo "[$CLOUDSDK_ACTIVE_CONFIG_NAME]"
   elif [[ -s ~/.config/gcloud/active_config ]]; then
     echo "[$(cat ~/.config/gcloud/active_config)]"
   fi
+}
+
+show_k8s_context() {
+  k8s_current_context=$(kubectl config current-context 2> /dev/null)
+  if [[ $? -eq 0 ]] ; then echo -e "[${k8s_current_context}]"; fi
 }
 
 show_virtual_env() {
@@ -80,8 +86,8 @@ show_virtual_env() {
 }
 
 export -f show_virtual_env > /dev/null 2>&1
-PS1='$(show_gcloud_config)$(show_virtual_env)'$PS1
-
+# PS1='$(show_gcloud_config)$(show_conda_env)$(show_k8s_context)'$PS1
+PS1='$(show_gcloud_config)$(show_conda_env)'$PS1
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '~/google-cloud-sdk/path.zsh.inc' ]; then source '~/google-cloud-sdk/path.zsh.inc'; fi
@@ -105,3 +111,19 @@ gcloud_staging () {
        gcloud "$@"
        gcloud config unset api_endpoint_overrides/deploymentmanager
 }
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/djrut/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/djrut/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/djrut/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/djrut/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

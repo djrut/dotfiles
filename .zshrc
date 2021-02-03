@@ -1,6 +1,7 @@
 export DEFAULT_USER=djrut
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
+export FZF_DEFAULT_COMMAND='fd'
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -87,7 +88,7 @@ show_virtual_env() {
 
 export -f show_virtual_env > /dev/null 2>&1
 # PS1='$(show_gcloud_config)$(show_conda_env)$(show_k8s_context)'$PS1
-PS1='$(show_gcloud_config)$(show_conda_env)'$PS1
+PS1='$(show_gcloud_config)'$PS1
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '~/google-cloud-sdk/path.zsh.inc' ]; then source '~/google-cloud-sdk/path.zsh.inc'; fi

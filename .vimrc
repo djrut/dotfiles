@@ -28,7 +28,10 @@ Plug 'kana/vim-textobj-line'
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'w0rp/ale'
-Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer --tern-completer' }
+Plug 'plytophogy/vim-virtualenv'
+Plug 'PieterjanMontens/vim-pipenv'
+" Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer --tern-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py' }
 Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -43,6 +46,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'leissa/vim-acme'
 Plug 'gioele/vim-autoswap'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'moll/vim-bbye'
 call plug#end()
 " }}}
 " Features {{{
@@ -154,10 +158,11 @@ nnoremap <M-x> :cclose<CR>
 " Show change window
 execute "set <M-c>=\ec"
 nnoremap <M-c> :changes<CR>
-
+" Close buffer maintaining layout
+execute "set <M-q>=\eq"
+nnoremap <M-q> :Bdelete<CR>
 " space open/closes folds
 nnoremap <space> za
-
 " Leader key mappings
 "
 " Toggle relative line numbering

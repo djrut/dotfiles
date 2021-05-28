@@ -9,43 +9,41 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'sheerun/vim-polyglot'
 Plug 'crusoexia/vim-monokai'
-Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+" Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 Plug 'majutsushi/tagbar', { 'on':  'TagbarToggle'  }
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-function'
 Plug 'kana/vim-textobj-line'
-Plug 'airblade/vim-gitgutter'
-Plug 'airblade/vim-rooter'
+" Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-rooter'
 Plug 'w0rp/ale'
-Plug 'plytophogy/vim-virtualenv'
-Plug 'PieterjanMontens/vim-pipenv'
-" Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer --tern-completer' }
 Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py' }
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+" Plug 'junegunn/vim-easy-align'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'bling/vim-airline'
-Plug 'glench/vim-jinja2-syntax'
-Plug 'digitalrounin/vim-yaml-folds'
+" Plug 'glench/vim-jinja2-syntax'
+" Plug 'digitalrounin/vim-yaml-folds'
 Plug 'raimondi/delimitmate'
-Plug 'christoomey/vim-tmux-navigator'
+" Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-system-copy'
-Plug 'tmux-plugins/vim-tmux-focus-events'
+" Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'leissa/vim-acme'
 Plug 'gioele/vim-autoswap'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'moll/vim-bbye'
 call plug#end()
 " }}}
@@ -182,8 +180,13 @@ nnoremap <leader>* :Grepper -tool ag -cword -noprompt -noswitch -highlight<cr>
 
 " Buffer delete without messing with split panes
 nnoremap <C-c> :bp\|bd #<CR>
+
+" Skip quickfix when switching boffers
+nnoremap <Tab> :call BSkipQuickFix("bn")<CR>
+nnoremap <S-Tab> :call BSkipQuickFix("bp")<CR>
+
 " }}}
-" Airline  {{{
+" Airline  {{
 "
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1			" enable the list of buffers
@@ -263,10 +266,6 @@ let delimitMate_offByDefault = 1
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
 " }}}
-" vim-rooter {{{
-let g:rooter_manual_only = 1
-let g:rooter_patterns = ['pom.xml','.git/']
-" }}}
 " Autocommands {{{
 augroup configgroup
     autocmd!
@@ -343,23 +342,21 @@ highlight ALEError ctermbg=DarkRed
 highlight ALEWarning ctermbg=LightRed
 " let g:ale_completion_enabled = 1
 " }}}
-" Syntastic {{{
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': []  }
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_yaml_checkers = ['yamllint']
-" }}}
 " YouCompleteMe settings  {{{
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_python_interpreter_path = '/usr/local/bin/python3'
 " }}}
 " Functions {{{
+" Exclude quickfx when swtching buffers
+function! BSkipQuickFix(command)
+  let start_buffer = bufnr('%')
+  execute a:command
+  while &buftype ==# 'quickfix' && bufnr('%') != start_buffer
+    execute a:command
+  endwhile
+endfunction
+
 " toggle between number and relativenumber
 function! ToggleNumber()
     if(&relativenumber == 1)

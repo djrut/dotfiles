@@ -40,6 +40,7 @@ alias gis="gcloud iam service-accounts"
 alias kcx='kubectl config use-context'
 alias kcl='kubectl config get-contexts'
 alias glog='git --no-pager log --pretty=oneline --decorate -n16'
+alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -112,19 +113,3 @@ gcloud_staging () {
        gcloud "$@"
        gcloud config unset api_endpoint_overrides/deploymentmanager
 }
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/djrut/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/djrut/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/djrut/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/djrut/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-

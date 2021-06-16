@@ -9,42 +9,36 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'sheerun/vim-polyglot'
 Plug 'crusoexia/vim-monokai'
-" Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 Plug 'majutsushi/tagbar', { 'on':  'TagbarToggle'  }
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
-" Plug 'tpope/vim-unimpaired'
-" Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-fugitive'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-function'
 Plug 'kana/vim-textobj-line'
-" Plug 'airblade/vim-gitgutter'
-" Plug 'airblade/vim-rooter'
 Plug 'w0rp/ale'
 Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py' }
-" Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-" Plug 'junegunn/vim-easy-align'
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'bling/vim-airline'
-" Plug 'glench/vim-jinja2-syntax'
-" Plug 'digitalrounin/vim-yaml-folds'
 Plug 'raimondi/delimitmate'
-" Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-system-copy'
-" Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'leissa/vim-acme'
 Plug 'gioele/vim-autoswap'
-" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'moll/vim-bbye'
+Plug 'hashivim/vim-terraform'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/asyncrun.extra'
+Plug 'preservim/vimux'
+" Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 " }}}
 " Features {{{
@@ -125,10 +119,10 @@ inoremap  <Up>     <NOP>
 inoremap  <Down>   <NOP>
 inoremap  <Left>   <NOP>
 inoremap  <Right>  <NOP>
-noremap   <Up>     <NOP>
-noremap   <Down>   <NOP>
-noremap   <Left>   <NOP>
-noremap   <Right>  <NOP>
+noremap   <Up>     :cp<CR>
+noremap   <Down>   :cn<CR>
+noremap   <Left>   :lprev<CR>
+noremap   <Right>  :lnext<CR>
 
 " Fast Alt key mappings section
 "
@@ -146,7 +140,7 @@ execute "set <M-g>=\eg"
 nnoremap <M-g> :Grepper -tool ag -noswitch -highlight <cr>
 " Enable easy paste toggling
 execute "set <M-p>=\ep"
-nnoremap <M-p> :set invpaste paste?<CR>
+nnoremap <M-p> :call TogglePaste()<CR>
 " Toggle ALE
 execute "set <M-a>=\ea"
 nnoremap <M-a> :ALEToggle<CR>
@@ -168,7 +162,7 @@ nnoremap <leader>l :setlocal relativenumber!<CR>
 " Tag Bar
 nnoremap <leader>t :TagbarToggle<CR>
 " Invoke ctags
-nnoremap <leader>ct :!ctags -R .<CR>
+nnoremap <leader>ct :AsyncRun ctags -R $VIRTUAL_ENV .<CR>
 " save session
 nnoremap <leader>S :mksession<CR>
 " Run Syntastic check
@@ -179,14 +173,14 @@ nnoremap <leader>m :make<CR>
 nnoremap <leader>* :Grepper -tool ag -cword -noprompt -noswitch -highlight<cr>
 
 " Buffer delete without messing with split panes
-nnoremap <C-c> :bp\|bd #<CR>
+nnoremap <C-c> :Bdelete<CR>
 
 " Skip quickfix when switching boffers
 nnoremap <Tab> :call BSkipQuickFix("bn")<CR>
 nnoremap <S-Tab> :call BSkipQuickFix("bp")<CR>
 
 " }}}
-" Airline  {{
+" Airline  {{{
 "
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1			" enable the list of buffers
@@ -366,6 +360,12 @@ function! ToggleNumber()
         set relativenumber
     endif
 endfunc
+
+function! TogglePaste()
+  set invpaste paste?
+  set expandtab
+endfunc
+
 
 " strips trailing whitespace at the end of files. this
 " is called on buffer write in the autogroup above.

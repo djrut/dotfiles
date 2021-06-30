@@ -1,7 +1,7 @@
 export DEFAULT_USER=djrut
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
-export FZF_DEFAULT_COMMAND='fd'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/

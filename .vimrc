@@ -23,8 +23,8 @@ Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-function'
 Plug 'kana/vim-textobj-line'
-Plug 'w0rp/ale'
-Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py' }
+Plug 'dense-analysis/ale'
+Plug 'Valloric/YouCompleteMe', { 'do': 'python ./install.py' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'bling/vim-airline'
@@ -134,10 +134,16 @@ execute "set <M-t>=\et"
 nnoremap <M-t> :Tags<CR>
 " Invoke FuzzyFind for buffers
 execute "set <M-b>=\eb"
-nnoremap <M-b> :Buffers<CR>
 " Invoke Grepper with ack
 execute "set <M-g>=\eg"
-nnoremap <M-g> :Grepper -tool ag -noswitch -highlight <cr>
+nnoremap <M-g> :Grepper -tool ag -noswitch -highlight<CR>
+nnoremap <M-b> :Buffers<CR>
+" Invoke compiler
+execute "set <M-m>=\em"
+nnoremap <M-m> :Make!<CR>
+" Invoke compiler
+execute "set <M-c>=\ec"
+nnoremap <M-c> :AsyncRun ctags -R $VIRTUAL_ENV .<CR>
 " Enable easy paste toggling
 execute "set <M-p>=\ep"
 nnoremap <M-p> :call TogglePaste()<CR>
@@ -147,9 +153,6 @@ nnoremap <M-a> :ALEToggle<CR>
 " Close Quickfix window
 execute "set <M-x>=\ex"
 nnoremap <M-x> :cclose<CR>
-" Show change window
-execute "set <M-c>=\ec"
-nnoremap <M-c> :changes<CR>
 " Close buffer maintaining layout
 execute "set <M-q>=\eq"
 nnoremap <M-q> :Bdelete<CR>
@@ -161,19 +164,12 @@ nnoremap <space> za
 nnoremap <leader>l :setlocal relativenumber!<CR>
 " Tag Bar
 nnoremap <leader>t :TagbarToggle<CR>
-" Invoke ctags
-nnoremap <leader>ct :AsyncRun ctags -R $VIRTUAL_ENV .<CR>
 " save session
 nnoremap <leader>S :mksession<CR>
 " Run Syntastic check
 nnoremap <leader>gd  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" Invoke compiler
-nnoremap <leader>m :make<CR>
 " Invoke Grepper with ack for current selection/focus
 nnoremap <leader>* :Grepper -tool ag -cword -noprompt -noswitch -highlight<cr>
-
-" Buffer delete without messing with split panes
-nnoremap <C-c> :Bdelete<CR>
 
 " Skip quickfix when switching boffers
 nnoremap <Tab> :call BSkipQuickFix("bn")<CR>
@@ -299,8 +295,6 @@ augroup configgroup
     autocmd BufEnter *.sh setlocal tabstop=2
     autocmd BufEnter *.sh setlocal shiftwidth=2
     autocmd BufEnter *.sh setlocal softtabstop=2
-    autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-    " autocmd BufNewFile,BufRead *.yaml,*.yml so ~/.vim/yaml.vim
     autocmd BufNewFile,BufRead *.asm set syntax=acme.vim
 augroup END
 " }}}
@@ -332,6 +326,7 @@ let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0
 let g:ale_open_list = 1
 let g:ale_keep_list_window_open = 1
+let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰']
 highlight ALEError ctermbg=DarkRed
 highlight ALEWarning ctermbg=LightRed
 " let g:ale_completion_enabled = 1
@@ -343,6 +338,8 @@ let g:ycm_python_interpreter_path = '/usr/local/bin/python3'
 " }}}
 " Functions {{{
 " Exclude quickfx when swtching buffers
+
+
 function! BSkipQuickFix(command)
   let start_buffer = bufnr('%')
   execute a:command
@@ -365,7 +362,6 @@ function! TogglePaste()
   set invpaste paste?
   set expandtab
 endfunc
-
 
 " strips trailing whitespace at the end of files. this
 " is called on buffer write in the autogroup above.

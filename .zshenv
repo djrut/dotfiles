@@ -4,3 +4,8 @@ export PATH=/usr/local/bin:/usr/local/opt/gnu-sed/libexec/gnubin:~/google-cloud-
 export DIRENV_WARN_TIMEOUT=10s
 export JAVA_HOME=/Library/Java/Home
 export SYSTEM_VERSION_COMPAT=1
+
+# Pyenv Settings
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$(pyenv root)/shims:$PATH"

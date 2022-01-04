@@ -113,3 +113,7 @@ gcloud_staging () {
        gcloud "$@"
        gcloud config unset api_endpoint_overrides/deploymentmanager
 }
+
+# Pyenv Settings
+if [ -f $(pyenv root)/completions/pyenv.zsh ]; then source "$(pyenv root)/completions/pyenv.zsh"; fi
+eval "$(pyenv init -)"

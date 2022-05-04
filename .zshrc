@@ -1,7 +1,8 @@
 export DEFAULT_USER=djrut
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!*.git"'
+# export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -92,12 +93,6 @@ export -f show_virtual_env > /dev/null 2>&1
 # PS1='$(show_gcloud_config)$(show_conda_env)$(show_k8s_context)'$PS1
 # PS1='$(show_gcloud_config)'$PS1
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '~/google-cloud-sdk/path.zsh.inc' ]; then source '~/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '~/google-cloud-sdk/completion.zsh.inc' ]; then source '~/google-cloud-sdk/completion.zsh.inc'; fi
-
 # Start vim with Obsession enabled unless Session already exists
 function vim() {
   if test $# -gt 0; then
@@ -118,3 +113,9 @@ gcloud_staging () {
 # Pyenv Settings
 if [ -f $(pyenv root)/completions/pyenv.zsh ]; then source "$(pyenv root)/completions/pyenv.zsh"; fi
 eval "$(pyenv init -)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/djrut/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/djrut/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/djrut/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/djrut/google-cloud-sdk/completion.zsh.inc'; fi

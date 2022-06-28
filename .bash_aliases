@@ -13,5 +13,6 @@ alias gssh="gcloud compute ssh"
 alias gis="gcloud iam service-accounts"
 alias kcx='kubectl config use-context'
 alias kcl='kubectl config get-contexts'
+alias kbug='kubectl run debug --rm -i --tty --image=nicolaka/netshoot'
 alias glog='git --no-pager log --pretty=oneline --decorate -n16'
 alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'

@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
-sudo apt-get update
-sudo apt-get -qy install git tmux direnv ctags cmake \
-  tree zsh curl yamllint host dnsutils \
-  silversearcher-ag ripgrep
+sudo apt-get update && sudo apt-get install -qy gnupg software-properties-common curl
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt-get remove -qy --purge man-db
+sudo apt-get update && sudo apt-get -qy install terraform \
+  git tmux direnv ctags cmake \
+  tree zsh yamllint host dnsutils jq \
+  silversearcher-ag ripgrep kubectl
 
 echo "Initializing global git config..."
 git config --global user.name "Duncan Rutland"

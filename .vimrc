@@ -37,6 +37,7 @@ Plug 'hashivim/vim-terraform'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asyncrun.extra'
 Plug 'preservim/vimux'
+Plug '907th/vim-auto-save'
 " Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 " Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
@@ -243,6 +244,13 @@ xmap gs  <plug>(GrepperOperator)
 let g:grepper = {}            " initialize g:grepper with empty dictionary
 runtime plugin/grepper.vim    " initialize g:grepper with default values
 let g:grepper.quickfix = 1
+
+" }}}
+" Autosave Settings  {{{
+"
+let g:auto_save = 1
+" let g:auto_save_silent = 1
+
 " }}}
 " Folding settings {{{
 " 

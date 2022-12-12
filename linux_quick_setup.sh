@@ -25,3 +25,5 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
 
 source ~/.bashrc
+# Install Vim plugins
+vim +'PlugInstall --sync' +qall

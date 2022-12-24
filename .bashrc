@@ -17,6 +17,8 @@ alias kcl='kubectl config get-contexts'
 alias kbug='kubectl run debug --rm -i --tty --image=nicolaka/netshoot'
 alias glog='git --no-pager log --pretty=oneline --decorate -n16'
 alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'
+alias gss='git status -s'
+alias gcmsg='git commit -m'
 # }}}
 # FZF Settings {{{
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!*.git"'
@@ -43,6 +45,29 @@ show_virtual_env() {
   fi
 }
 
+function prompt_command() { 
+    last_status=$?
+
+    BGREEN="\[\e[0;92m\]"
+    BCYAN="\[\e[0;96m\]"
+    RESTORE="\[\e[0m\]" #0m restores to the terminal's default colour
+
+    if [ $last_status -eq 0 ];
+    then
+      STATUS_PROMPT="\[\e[0;92m\]$"
+    else
+      STATUS_PROMPT="\[\e[0;91m\]$"
+    fi
+
+    git_branch=$(git rev-parse --abbrev-ref HEAD)
+    if [[ $? -eq 0 ]] ; then
+      GIT_BRANCH="[${git_branch}]"
+    else
+      GIT_BRANCH=""
+    fi
+    PS1="\u@\h:${BGREEN}${GIT_BRANCH}${BCYAN}[\w]${STATUS_PROMPT}${RESTORE} "
+}
+
 show_k8s_context() {
   k8s_current_context=$(kubectl config current-context 2> /dev/null)
   if [[ $? -eq 0 ]] ; then echo -e "[${k8s_current_context}]"; fi
@@ -64,13 +89,6 @@ function vim() {
   fi
 }
 
-function colorize_prompt() {
-  if [ $? -eq 0 ]; then
-    echo -n '\[\e[0;92m\]$'
-  else
-    echo -n '\[\e[0;91m\]$'
-  fi
-}
 # }}}
 # Autocompletion settings {{{
 # Pyenv Settings
@@ -80,14 +98,10 @@ eval "$(pyenv init -)"
 if [ -f '/Users/djrut/google-cloud-sdk/path.bash.inc' ]; then . '/Users/djrut/google-cloud-sdk/path.bash.inc'; fi
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/djrut/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/djrut/google-cloud-sdk/completion.bash.inc'; fi
-# Autocomplete configuration for kubectl
-if [ $commands[kubectl] ]; then
-  source <(kubectl completion bash)
-fi
 # }}}
 # Prompt settings {{{
+PROMPT_COMMAND=prompt_command
 PROMPT_DIRTRIM=3
-PS1="\[\e[0;92m\]$(show_git_branch)\[\e[0;96m\][\w]\[\e[0m\]\[\e[0;92m\]$\[\e[0m\] "
 # }}}
 # Metadata {{{
 # vim:foldmethod=marker:foldlevel=0

@@ -24,10 +24,6 @@ alias gcmsg='git commit -m'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!*.git"'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # }}}
-# Direnv settings {{{
-# https://github.com/direnv/direnv
-eval "$(direnv hook bash)"
-# }}}
 # Functions {{{
 show_gcloud_config() {
   if [[ -n "${CLOUDSDK_ACTIVE_CONFIG_NAME}" ]]; then

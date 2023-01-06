@@ -80,7 +80,9 @@ set wildignore+=*.swp,.lock,.DS_Store,._*
 "
 set t_Co=256
 set background=dark
-colorscheme monokai 
+if filereadable(expand("$HOME/.vim/plugged/vim-monokai/colors/monokai.vim"))
+  colorscheme monokai 
+endif
 let python_highlight_all=1
 " }}}
 " Line numbering {{{

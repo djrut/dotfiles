@@ -43,6 +43,7 @@ source ~/.bash_profile
 curl -sSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION}
 pyenv global ${PYTHON_VERSION}
+export PATH="$(pyenv root)/shims:$PATH"
 # }}}
 # Install TMUX plugin manager {{{
 git clone --quiet https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

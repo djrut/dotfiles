@@ -30,22 +30,22 @@ mv .zshrc .zshrc.bak
 echo "Pulling down dotfiles..."
 cd && git init && \
 	git remote add origin https://github.com/djrut/dotfiles.git && \
-	git pull origin master
+	git pull --quiet origin master
 # }}}
 # Install FZF {{{
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+git clone --quiet --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
 # }}}
 # Source new .bashrc {{{
 source ~/.bash_profile
 # }}}
 # Install pyenv and Python {{{
-curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+curl -sSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION}
 pyenv global ${PYTHON_VERSION}
 # }}}
 # Install TMUX plugin manager {{{
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone --quiet https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # }}}
 # Install Vim plugins {{{
 vim +'PlugInstall --sync' +qall

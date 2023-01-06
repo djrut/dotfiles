@@ -37,7 +37,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
 # }}}
 # Source new .bashrc {{{
-source ~/.bashrc
+source ~/.bash_profile
 # }}}
 # Install pyenv and Python {{{
 curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash

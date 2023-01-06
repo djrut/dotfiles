@@ -88,8 +88,10 @@ function vim() {
 # }}}
 # Autocompletion settings {{{
 # Pyenv Settings
-if [ -f $(pyenv root)/completions/pyenv.bash ]; then source "$(pyenv root)/completions/pyenv.bash"; fi
-eval "$(pyenv init -)"
+command -v pyenv > /dev/null && { if [ -f $(pyenv root)/completions/pyenv.bash ]; then \
+  source "$(pyenv root)/completions/pyenv.bash"; fi; \
+  eval "$(pyenv init -)"
+}
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/djrut/google-cloud-sdk/path.bash.inc' ]; then . '/Users/djrut/google-cloud-sdk/path.bash.inc'; fi
 # The next line enables shell command completion for gcloud.

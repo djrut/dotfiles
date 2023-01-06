@@ -8,5 +8,5 @@ export JAVA_HOME=/Library/Java/Home
 export SYSTEM_VERSION_COMPAT=1
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$(pyenv root)/shims:$PATH"
+command -v pyenv > /dev/null && export PATH="$(pyenv root)/shims:$PATH"
 export PYTHON_CONFIGURE_OPTS="--enable-framework"

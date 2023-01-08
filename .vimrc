@@ -291,8 +291,10 @@ augroup configgroup
     autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
     autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
     autocmd FileType python set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
+    autocmd FileType python set foldmethod=marker
     autocmd FileType python setlocal commentstring=#\ %s
     autocmd FileType python set makeprg=python\ %
+    autocmd FileType sh set foldmethod=marker
     autocmd FileType json set autoindent
     autocmd FileType json set formatoptions=tcq2l
     autocmd FileType json set textwidth=78 shiftwidth=2

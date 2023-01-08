@@ -16,7 +16,7 @@
 #
 # }}}
 # Globals {{{
-: ${PYTHON_VERSION}:="3.11.1"
+: ${PYTHON_VERSION:=3.11.1}
 : ${DEBUG_LOG:=bootstrap-debug-$(date +%s)}
 # }}}
 # Function: main {{{
@@ -27,6 +27,9 @@ function main {
   install_dotfiles
   install_fzf
   source ~/.bash_profile
+  install_pyenv
+  install_tmux_plugin_manager
+  install_vim_plugins
 }
 # }}}
 # Utility functions {{{
@@ -57,14 +60,15 @@ function join_by {
   echo "$*"
 }
 # }}}
-# Function: install_packages {{{ 
+# Function: install_packages {{{
 function install_packages {
   h1 "Installing OS packages..."
-  sudo apt-get update && sudo apt-get install -qy gnupg software-properties-common curl && \
-  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && \
-  sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && \
-  sudo apt-get remove -qy --purge man-db && \
-  sudo apt-get update && sudo apt-get -qy install terraform \
+  sudo apt-get -qy update >> ${DEBUG_LOG} 2>&1 && \
+  sudo apt-get -qy install gnupg software-properties-common curl >> ${DEBUG_LOG} 2>&1 && \
+  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - >> ${DEBUG_LOG} 2>&1 && \
+  sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" >> ${DEBUG_LOG} 2>&1 && \
+  sudo apt-get -qy remove -qy --purge man-db >> ${DEBUG_LOG} 2>&1 && \
+  sudo apt-get -qy update >> ${DEBUG_LOG} 2>&1 && sudo apt-get -qy install terraform \
     git tmux direnv ctags cmake \
     tree zsh yamllint host dnsutils jq \
     silversearcher-ag ripgrep kubectl \
@@ -74,7 +78,7 @@ function install_packages {
 }
 # }}}
 # Function: git_config {{{
-function git_config {n
+function git_config {
   h1 "Initializing global git config..."
   git config --global user.name "Duncan Rutland" && \
   git config --global user.email "djrut@google.com" && \
@@ -86,50 +90,75 @@ function git_config {n
 function install_dotfiles {
   h1 "Installing dotfiles..."
 
-  mv .bashrc .bashrc.bak
-  mv .profile .profile.bak
-  mv .zshrc .zshrc.bak
+  if [ -d .git ]; then
+    failure
+    echo "FATAL: .git directory already exists... aborting!"
+    exit 1
+  fi
 
-  cd && git init && \
-    git remote add origin https://github.com/djrut/dotfiles.git && \
+  for dotfile in .bashrc .profile .zsh .tmux.conf .vimrc .bash_profile; do
+    [ -f ${dotfile} ] && mv ${dotfile} ${dotfile}.bak
+  done
+
+  [ -d .git ] && mv .git .git.bak
+
+  cd && git init >> ${DEBUG_LOG} 2>&1 && \
+    git remote add origin https://github.com/djrut/dotfiles.git >> ${DEBUG_LOG} 2>&1 && \
     git pull --quiet origin master >> ${DEBUG_LOG} 2>&1 && success || failure
-  }
+}
 # }}}
 # Function: install_fzf {{{
 function install_fzf {
   h1 "Installing fuzzy-find..."
-  git clone --quiet --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
-  ~/.fzf/install --all >> ${DEBUG_LOG} 2>&1 && success || failure
+
+  if [ -d .fzf ]; then
+    echo "ERROR: .fzf directory already exists... unable to install." >> ${DEBUG_LOG} 2>&1
+    failure
+  else
+    git clone --quiet --depth 1 https://github.com/junegunn/fzf.git ~/.fzf >> ${DEBUG_LOG} 2>&1 && \
+    ~/.fzf/install --all >> ${DEBUG_LOG} 2>&1 && success || failure
+  fi
 }
 # }}}
 # Function: install_pyenv {{{
 function install_pyenv {
   h1 "Installing pyenv and python..."
-  curl -sSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
-  PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION} && \
-  pyenv global ${PYTHON_VERSION} && \
-  export PATH="$(pyenv root)/shims:$PATH"  >> ${DEBUG_LOG} 2>&1 && success || failure
+
+  if [ -d .pyenv ]; then
+    echo "WARNING: .pyenv directory already exists... skipping install." >> ${DEBUG_LOG} 2>&1
+    failure
+  else
+    echo "Python version = ${PYTHON_VERSION}"
+    curl -sSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash >> ${DEBUG_LOG} 2>&1 && \
+    PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION} >> ${DEBUG_LOG} 2>&1 && \
+    pyenv global ${PYTHON_VERSION} >> ${DEBUG_LOG} 2>&1 && \
+    export PATH="$(pyenv root)/shims:$PATH"  >> ${DEBUG_LOG} 2>&1 && success || failure
+  fi
 }
 # }}}
 # Function: install_tmux_plugin_manager {{{
 function install_tmux_plugin_manager {
   h1 "Installing TMUX Plugin Manager..."
-  curl -sSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
-  git clone --quiet https://github.com/tmux-plugins/tpm \
-    ~/.tmux/plugins/tpm >> ${DEBUG_LOG} 2>&1 && success || failure
+  if [ -d ~/.tmux/plugins/tpm ]; then
+    echo "WARNING: ~/.tmux/plugins/tpm directory already exists... skipping install." >> ${DEBUG_LOG} 2>&1
+    failure
+  else
+    git clone --quiet https://github.com/tmux-plugins/tpm \
+      ~/.tmux/plugins/tpm >> ${DEBUG_LOG} 2>&1 && success || failure
+  fi
 }
 # }}}
 # Function: install_vim_plugins {{{
 function install_vim_plugins {
   h1 "Installing Vim plugins..."
-  vim +'PlugInstall --sync' +qall >> ${DEBUG_LOG} 2>&1 && success || failure
+  vim +'PlugInstall --sync' +qall && success || failure
 }
 # }}}
 # Entrypoint  {{{
 main "$@"
 
 if (( failflag != 0 )); then
-  echo "ERROR! One or more steps failed to execute properly. Check the debug log at ${DEBUG_LOG} for more details."
+  echo "WARNING! One or more steps failed to execute properly. Check the debug log at ${DEBUG_LOG} for more details."
   exit 1
 fi
 

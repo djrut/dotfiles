@@ -70,9 +70,13 @@ function install_packages {
   sudo apt-get -qy remove -qy --purge man-db >> ${DEBUG_LOG} 2>&1 && \
   sudo apt-get -qy update >> ${DEBUG_LOG} 2>&1 && sudo apt-get -qy install \
     build-essential gcc pkg-config make \
-    zlib1g-dev libffi-dev \
+    zlib1g zlib1g-dev libffi-dev \
     libssl-dev libbz2-dev libreadline-dev \
     libsqlite3-dev liblzma-dev \
+    python-dev python-setuptools \
+    libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev \
+    libncursesw5-dev libgdbm-dev libc6-dev \
+    libsqlite3-dev tk-dev libssl-dev openssl \
     google-cloud-sdk-gke-gcloud-auth-plugin \
     git tmux direnv exuberant-ctags cmake \
     tree zsh yamllint host dnsutils jq \

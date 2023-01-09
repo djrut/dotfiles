@@ -68,13 +68,15 @@ function install_packages {
   curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - >> ${DEBUG_LOG} 2>&1 && \
   sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" >> ${DEBUG_LOG} 2>&1 && \
   sudo apt-get -qy remove -qy --purge man-db >> ${DEBUG_LOG} 2>&1 && \
-  sudo apt-get -qy update >> ${DEBUG_LOG} 2>&1 && sudo apt-get -qy install terraform \
-    git tmux direnv ctags cmake \
-    tree zsh yamllint host dnsutils jq \
-    silversearcher-ag ripgrep kubectl \
-    build-essential zlib1g-dev libffi-dev \
+  sudo apt-get -qy update >> ${DEBUG_LOG} 2>&1 && sudo apt-get -qy install \
+    build-essential gcc pkg-config make \
+    zlib1g-dev libffi-dev \
     libssl-dev libbz2-dev libreadline-dev \
-    libsqlite3-dev liblzma-dev google-cloud-sdk-gke-gcloud-auth-plugin >> ${DEBUG_LOG} 2>&1 && success || failure
+    libsqlite3-dev liblzma-dev \
+    google-cloud-sdk-gke-gcloud-auth-plugin \
+    git tmux direnv exuberant-ctags cmake \
+    tree zsh yamllint host dnsutils jq \
+    silversearcher-ag ripgrep kubectl >> ${DEBUG_LOG} 2>&1 && success || failure
 }
 # }}}
 # Function: git_config {{{
@@ -128,7 +130,6 @@ function install_pyenv {
     echo "WARNING: .pyenv directory already exists... skipping install." >> ${DEBUG_LOG} 2>&1
     failure
   else
-    echo "Python version = ${PYTHON_VERSION}"
     curl -sSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash >> ${DEBUG_LOG} 2>&1 && \
     PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION} >> ${DEBUG_LOG} 2>&1 && \
     pyenv global ${PYTHON_VERSION} >> ${DEBUG_LOG} 2>&1 && \
@@ -159,10 +160,7 @@ main "$@"
 
 if (( failflag != 0 )); then
   echo "WARNING! One or more steps failed to execute properly. Check the debug log at ${DEBUG_LOG} for more details."
-  exit 1
 fi
-
-exit
 # }}}
 # Metadata {{{
 # vim:foldmethod=marker:foldlevel=0

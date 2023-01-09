@@ -14,3 +14,4 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   export PYTHON_CONFIGURE_OPTS="--enable-framework"
 fi
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True

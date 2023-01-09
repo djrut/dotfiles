@@ -74,7 +74,7 @@ function install_packages {
     silversearcher-ag ripgrep kubectl \
     build-essential zlib1g-dev libffi-dev \
     libssl-dev libbz2-dev libreadline-dev \
-    libsqlite3-dev liblzma-dev >> ${DEBUG_LOG} 2>&1 && success || failure
+    libsqlite3-dev liblzma-dev google-cloud-sdk-gke-gcloud-auth-plugin >> ${DEBUG_LOG} 2>&1 && success || failure
 }
 # }}}
 # Function: git_config {{{

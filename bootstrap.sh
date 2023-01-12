@@ -88,7 +88,8 @@ function git_config {
   h1 "Initializing global git config..."
   git config --global user.name "Duncan Rutland" && \
   git config --global user.email "djrut@google.com" && \
-  git config --global status.submoduleSummary true >> ${DEBUG_LOG} 2>&1 && \
+  git config --global status.submoduleSummary true && \
+  git config --global init.defaultBranch main >> ${DEBUG_LOG} 2>&1 && \
   success || failure
 }
 # }}}

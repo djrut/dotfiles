@@ -55,7 +55,7 @@ function prompt_command() {
       STATUS_PROMPT="\[\e[0;91m\]$"
     fi
 
-    git_branch=$(git rev-parse --abbrev-ref HEAD)
+    git_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
     if [[ $? -eq 0 ]] ; then
       GIT_BRANCH="[${git_branch}]"
     else
@@ -67,11 +67,6 @@ function prompt_command() {
 show_k8s_context() {
   k8s_current_context=$(kubectl config current-context 2> /dev/null)
   if [[ $? -eq 0 ]] ; then echo -e "[${k8s_current_context}]"; fi
-}
-
-show_git_branch() {
-  git_branch=$(git rev-parse --abbrev-ref HEAD)
-  if [[ $? -eq 0 ]] ; then echo -e "[${git_branch}]"; fi
 }
 
 # Start vim with Obsession enabled unless Session already exists

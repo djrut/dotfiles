@@ -1,3 +1,13 @@
+Pipfile.lock
+Session.vim
+tags
+Public/
+bin/
+export/
+fonts/
+go/
+google-cloud-sdk/
+midi/
 Applications/
 Desktop/
 Documents/
@@ -18,6 +28,7 @@ keys/
 .config/
 .cups/
 .docker/
+.envrc
 .fzf.bash
 .fzf.zsh
 .fzf/
@@ -29,10 +40,12 @@ keys/
 .lesshst
 .local/
 .m1-terraform-provider-helper/
+.mypy_cache
 .npm/
 .oh-my-zsh/
 .prompt_command
 .pyenv/
+.pytest_cache
 .python-version
 .python_history
 .secureConnect/
@@ -50,11 +63,3 @@ keys/
 .zsh_history
 .zsh_history.LOCK
 .zshrc.backup
-Public/
-bin/
-ersion
-export/
-fonts/
-go/
-google-cloud-sdk/
-midi/

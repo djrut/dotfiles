@@ -21,7 +21,7 @@ alias gss='git status -s'
 alias gcmsg='git commit -m'
 # }}}
 # FZF Settings {{{
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!*.git"'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --follow --glob "!*.git"'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # }}}
 # Functions {{{
@@ -36,8 +36,9 @@ show_gcloud_config() {
 # https://github.com/direnv/direnv/wiki/Python#restoring-the-ps1
 #
 show_virtual_env() {
-  if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
-    echo "($(basename $VIRTUAL_ENV))"
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    # echo "($(basename $VIRTUAL_ENV))"
+    echo "[venv]"
   fi
 }
 
@@ -46,6 +47,7 @@ function prompt_command() {
 
     BGREEN="\[\e[0;92m\]"
     BCYAN="\[\e[0;96m\]"
+    BRED="\[\e[0;31m\]"
     RESTORE="\[\e[0m\]" #0m restores to the terminal's default colour
 
     if [ $last_status -eq 0 ];
@@ -61,7 +63,9 @@ function prompt_command() {
     else
       GIT_BRANCH=""
     fi
-    PS1="\u@\h:${BGREEN}${GIT_BRANCH}${BCYAN}[\w]${STATUS_PROMPT}${RESTORE} "
+    VENV="$(show_virtual_env)"
+    PS1="\u@\h:${BGREEN}${GIT_BRANCH}${BCYAN}[\w]${BRED}${VENV}${STATUS_PROMPT}${RESTORE} "
+    history -a
 }
 
 show_k8s_context() {
@@ -95,6 +99,9 @@ if [ -f '/Users/djrut/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/dj
 # Prompt settings {{{
 PROMPT_COMMAND=prompt_command
 PROMPT_DIRTRIM=3
+# }}}
+# direnv settings {{{
+eval "$(direnv hook bash)"
 # }}}
 # Metadata {{{
 # vim:foldmethod=marker:foldlevel=0

@@ -24,7 +24,7 @@ Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-function'
 Plug 'kana/vim-textobj-line'
 Plug 'dense-analysis/ale'
-Plug 'Valloric/YouCompleteMe', { 'do': 'python ./install.py' }
+Plug 'Valloric/YouCompleteMe', { 'do': 'python ./install.py --clang-completer --go-completer' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'bling/vim-airline'
@@ -39,7 +39,8 @@ Plug 'skywind3000/asyncrun.extra'
 Plug 'preservim/vimux'
 Plug '907th/vim-auto-save'
 " Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
-" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'vim-test/vim-test'
 call plug#end()
 " }}}
 " Features {{{
@@ -84,6 +85,7 @@ if filereadable(expand("$HOME/.vim/plugged/vim-monokai/colors/monokai.vim"))
   colorscheme monokai 
 endif
 let python_highlight_all=1
+highlight QuickFixLine cterm=bold ctermbg=DarkGrey ctermfg=White
 " }}}
 " Line numbering {{{
 "
@@ -132,6 +134,12 @@ noremap   <Right>  :lnext<CR>
 " Invoke FuzzyFind for files
 execute "set <M-f>=\ef"
 nnoremap <M-f> :Files<CR>
+" Invoke pytest unit
+execute "set <M-u>=\eu"
+nnoremap <M-u> :!pytest -v -m unit<CR>
+" Invoke pytest integration
+execute "set <M-i>=\ei"
+nnoremap <M-i> :!pytest -v -m unit<CR>
 " Invoke FuzzyFind for tags
 execute "set <M-t>=\et"
 nnoremap <M-t> :Tags<CR>
@@ -143,10 +151,10 @@ nnoremap <M-g> :Grepper -tool ag -noswitch -highlight<CR>
 nnoremap <M-b> :Buffers<CR>
 " Invoke compiler
 execute "set <M-m>=\em"
-nnoremap <M-m> :Make!<CR>
+nnoremap <M-m> :make<CR>
 " Invoke compiler
 execute "set <M-c>=\ec"
-nnoremap <M-c> :AsyncRun ctags -R $VIRTUAL_ENV .<CR>
+nnoremap <M-c> :AsyncRun ctags -R --exclude=@$HOME/.ctagsignore $VIRTUAL_ENV .<CR>
 " Enable easy paste toggling
 execute "set <M-p>=\ep"
 nnoremap <M-p> :call TogglePaste()<CR>
@@ -308,6 +316,7 @@ augroup configgroup
     autocmd BufEnter *.sh setlocal shiftwidth=2
     autocmd BufEnter *.sh setlocal softtabstop=2
     autocmd BufNewFile,BufRead *.asm set syntax=acme.vim
+    autocmd FileType qf setlocal colorcolumn=
 augroup END
 " }}}
 " tmux settings {{{
@@ -339,6 +348,9 @@ let g:ale_set_quickfix = 0
 let g:ale_open_list = 1
 let g:ale_keep_list_window_open = 1
 let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰']
+let g:ale_virtualtext_cursor = 0
+let g:ale_set_highlights = 0
+let g:ale_python_mypy_options = '--config-file=$HOME/.config/mypy/config/mypy.ini'
 highlight ALEError ctermbg=DarkRed
 highlight ALEWarning ctermbg=LightRed
 " let g:ale_completion_enabled = 1
@@ -346,7 +358,11 @@ highlight ALEWarning ctermbg=LightRed
 " YouCompleteMe settings  {{{
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_python_interpreter_path = '/usr/local/bin/python3'
+let g:ycm_python_interpreter_path = '/Users/djrut/.pyenv/shims/python'
+" }}}
+" vim-test settings {{{
+" let test#strategy = "basic"
+" let test#python#runner = 'pytest'
 " }}}
 " Functions {{{
 " Exclude quickfx when swtching buffers

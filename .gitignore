@@ -63,3 +63,4 @@ keys/
 .zsh_history
 .zsh_history.LOCK
 .zshrc.backup
+.vscode*

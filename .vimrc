@@ -41,6 +41,7 @@ Plug '907th/vim-auto-save'
 " Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'vim-test/vim-test'
+Plug 'github/copilot.vim'
 call plug#end()
 " }}}
 " Features {{{
@@ -139,7 +140,10 @@ execute "set <M-u>=\eu"
 nnoremap <M-u> :!pytest -v -m unit<CR>
 " Invoke pytest integration
 execute "set <M-i>=\ei"
-nnoremap <M-i> :!pytest -v -m unit<CR>
+nnoremap <M-i> :!pytest -v -m integration<CR>
+" Invoke Python interpreter
+execute "set <M-d>=\ed"
+nnoremap <M-d> :!ptpython --vi -i %<CR>
 " Invoke FuzzyFind for tags
 execute "set <M-t>=\et"
 nnoremap <M-t> :Tags<CR>

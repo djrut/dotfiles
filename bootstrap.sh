@@ -47,24 +47,34 @@ function join_by {
 # Function: install_packages {{{
 function install_packages {
   h1 "Installing OS packages..."
-  sudo apt-get -qy update >> ${DEBUG_LOG} 2>&1 && \
-  sudo apt-get -qy install gnupg software-properties-common curl >> ${DEBUG_LOG} 2>&1 && \
-  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - >> ${DEBUG_LOG} 2>&1 && \
-  sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" >> ${DEBUG_LOG} 2>&1 && \
-  sudo apt-get -qy remove -qy --purge man-db >> ${DEBUG_LOG} 2>&1 && \
-  sudo apt-get -qy update >> ${DEBUG_LOG} 2>&1 && sudo apt-get -qy install \
-    build-essential gcc pkg-config make \
-    zlib1g zlib1g-dev libffi-dev \
-    libssl-dev libbz2-dev libreadline-dev \
-    libsqlite3-dev liblzma-dev \
-    python-dev python-setuptools \
-    libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev \
-    libncursesw5-dev libgdbm-dev libc6-dev \
-    libsqlite3-dev tk-dev libssl-dev openssl \
-    google-cloud-sdk-gke-gcloud-auth-plugin \
-    git tmux direnv exuberant-ctags cmake \
-    tree zsh yamllint host dnsutils jq \
-    silversearcher-ag ripgrep kubectl >> ${DEBUG_LOG} 2>&1 && success || failure
+  if [[ "$OSTYPE" == "linux"* ]]; then
+    sudo apt-get -qy update && \
+    sudo apt-get -qy install gnupg software-properties-common curl && \
+    curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - && \
+    sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && \
+    sudo apt-get -qy remove -qy --purge man-db && \
+    sudo apt-get -qy update && sudo apt-get -qy install \
+      build-essential gcc pkg-config make \
+      zlib1g zlib1g-dev libffi-dev \
+      libssl-dev libbz2-dev libreadline-dev \
+      libsqlite3-dev liblzma-dev \
+      python-dev python-setuptools \
+      libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev \
+      libncursesw5-dev libgdbm-dev libc6-dev \
+      libsqlite3-dev tk-dev libssl-dev openssl \
+      google-cloud-sdk-gke-gcloud-auth-plugin \
+      git tmux direnv exuberant-ctags cmake \
+      tree zsh yamllint host dnsutils jq \
+      silversearcher-ag ripgrep kubectl && success || failure
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+    xcode-select -v || xcode-select --install && \
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+    brew install --quiet $(cat brew.txt) && success || failure
+  else
+    failure
+    echo "ERROR: Unsupported OS type: ${OSTYPE}"
+    exit 1
+  fi
 }
 # }}}
 # Function: git_config {{{
@@ -73,8 +83,8 @@ function git_config {
   git config --global user.name "Duncan Rutland" && \
   git config --global user.email "djrut@google.com" && \
   git config --global status.submoduleSummary true && \
-  git config --global init.defaultBranch main >> ${DEBUG_LOG} 2>&1 && \
-  success || failure
+  git config --global core.excludesFile '~/.gitignore_global'
+  git config --global init.defaultBranch main && success || failure
 }
 # }}}
 # Function: install_dotfiles {{{
@@ -93,9 +103,9 @@ function install_dotfiles {
 
   [ -d .git ] && mv .git .git.bak
 
-  cd && git init >> ${DEBUG_LOG} 2>&1 && \
-    git remote add origin https://github.com/djrut/dotfiles.git >> ${DEBUG_LOG} 2>&1 && \
-    git pull --quiet origin master >> ${DEBUG_LOG} 2>&1 && success || failure
+  cd && git init && \
+    git remote add origin https://github.com/djrut/dotfiles.git && \
+    git pull --quiet origin master && success || failure
 }
 # }}}
 # Function: install_fzf {{{
@@ -103,11 +113,11 @@ function install_fzf {
   h1 "Installing fuzzy-find..."
 
   if [ -d .fzf ]; then
-    echo "ERROR: .fzf directory already exists... unable to install." >> ${DEBUG_LOG} 2>&1
+    echo "ERROR: .fzf directory already exists... unable to install."
     failure
   else
-    git clone --quiet --depth 1 https://github.com/junegunn/fzf.git ~/.fzf >> ${DEBUG_LOG} 2>&1 && \
-    ~/.fzf/install --all >> ${DEBUG_LOG} 2>&1 && success || failure
+    git clone --quiet --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
+    ~/.fzf/install --all && success || failure
   fi
 }
 # }}}
@@ -116,13 +126,13 @@ function install_pyenv {
   h1 "Installing pyenv and python..."
 
   if [ -d .pyenv ]; then
-    echo "WARNING: .pyenv directory already exists... skipping install." >> ${DEBUG_LOG} 2>&1
+    echo "WARNING: .pyenv directory already exists... skipping install."
     failure
   else
-    curl -sSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash >> ${DEBUG_LOG} 2>&1 && \
-    PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION} >> ${DEBUG_LOG} 2>&1 && \
-    pyenv global ${PYTHON_VERSION} >> ${DEBUG_LOG} 2>&1 && \
-    export PATH="$(pyenv root)/shims:$PATH"  >> ${DEBUG_LOG} 2>&1 && success || failure
+    curl -sSL https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
+    PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION} && \
+    pyenv global ${PYTHON_VERSION} && \
+    export PATH="$(pyenv root)/shims:$PATH" && success || failure
   fi
 }
 # }}}
@@ -130,11 +140,12 @@ function install_pyenv {
 function install_tmux_plugin_manager {
   h1 "Installing TMUX Plugin Manager..."
   if [ -d ~/.tmux/plugins/tpm ]; then
-    echo "WARNING: ~/.tmux/plugins/tpm directory already exists... skipping install." >> ${DEBUG_LOG} 2>&1
+    echo "WARNING: ~/.tmux/plugins/tpm directory already exists... skipping install."
     failure
   else
     git clone --quiet https://github.com/tmux-plugins/tpm \
-      ~/.tmux/plugins/tpm >> ${DEBUG_LOG} 2>&1 && success || failure
+      ~/.tmux/plugins/tpm && success && \
+    ~/.tmux/plugins/tpm/bin/install_plugins && success || failure
   fi
 }
 # }}}
@@ -145,7 +156,7 @@ function install_vim_plugins {
 }
 # }}}
 # Entrypoint  {{{
-main "$@"
+main "$@" #>> ${DEBUG_LOG} 2>&1
 
 if (( failflag != 0 )); then
   echo "WARNING! One or more steps failed to execute properly. Check the debug log at ${DEBUG_LOG} for more details."

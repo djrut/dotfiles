@@ -16,9 +16,12 @@ alias kcx='kubectl config use-context'
 alias kcl='kubectl config get-contexts'
 alias kbug='kubectl run debug --rm -i --tty --image=nicolaka/netshoot'
 alias glog='git --no-pager log --pretty=oneline --decorate -n16'
+alias gdiff='git difftool'
 alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'
 alias gss='git status -s'
 alias gcmsg='git commit -m'
+alias ptp='ptpython --vi'
+alias tree='tree -C'
 # }}}
 # FZF Settings {{{
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --follow --glob "!*.git"'

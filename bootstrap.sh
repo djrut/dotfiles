@@ -81,9 +81,10 @@ function install_packages {
 function git_config {
   h1 "Initializing global git config..."
   git config --global user.name "Duncan Rutland" && \
-  git config --global user.email "djrut@google.com" && \
+  git config --global user.email "rutland.duncan@heb.com" && \
   git config --global status.submoduleSummary true && \
-  git config --global core.excludesFile '~/.gitignore_global'
+  git config --global core.excludesFile '~/.gitignore_global' \
+  git config --global --add --bool push.autoSetupRemote true \
   git config --global init.defaultBranch main && success || failure
 }
 # }}}

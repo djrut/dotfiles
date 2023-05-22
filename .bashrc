@@ -25,7 +25,11 @@ alias tree='tree -C'
 # }}}
 # FZF Settings {{{
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --follow --glob "!*.git"'
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_CTRL_T_OPTS="
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+[ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
+[ -f $HOME/.fzf/shell/completion.bash ] && source $HOME/.fzf/shell/completion.bash
 # }}}
 # Functions {{{
 show_gcloud_config() {
@@ -41,7 +45,7 @@ show_gcloud_config() {
 show_virtual_env() {
   if [[ -n "$VIRTUAL_ENV" ]]; then
     # echo "($(basename $VIRTUAL_ENV))"
-    echo "[venv]"
+    echo "[V]"
   fi
 }
 
@@ -51,13 +55,16 @@ function prompt_command() {
     BGREEN="\[\e[0;92m\]"
     BCYAN="\[\e[0;96m\]"
     BRED="\[\e[0;31m\]"
+    BHGREEN="\[\e[1;92m\]"
+    BHCYAN="\[\e[1;96m\]"
+    BHRED="\[\e[1;91m\]"
     RESTORE="\[\e[0m\]" #0m restores to the terminal's default colour
 
     if [ $last_status -eq 0 ];
     then
-      STATUS_PROMPT="\[\e[0;92m\]$"
+      STATUS_PROMPT="${BGREEN}$"
     else
-      STATUS_PROMPT="\[\e[0;91m\]$"
+      STATUS_PROMPT="${HRED}$"
     fi
 
     git_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
@@ -67,7 +74,7 @@ function prompt_command() {
       GIT_BRANCH=""
     fi
     VENV="$(show_virtual_env)"
-    PS1="\u@\h:${BGREEN}${GIT_BRANCH}${BCYAN}[\w]${BRED}${VENV}${STATUS_PROMPT}${RESTORE} "
+    PS1="\u@\h:${BGREEN}${GIT_BRANCH}${BCYAN}[\w]${BHRED}${VENV}${STATUS_PROMPT}${RESTORE} "
     history -a
 }
 
@@ -87,6 +94,10 @@ function vim() {
   fi
 }
 
+function preview() {
+  fd $1|fzf --preview="bat --color=always {}"
+}
+
 # }}}
 # Autocompletion settings {{{
 # Pyenv Settings
@@ -94,10 +105,16 @@ command -v pyenv > /dev/null && { if [ -f $(pyenv root)/completions/pyenv.bash ]
   source "$(pyenv root)/completions/pyenv.bash"; fi; \
   eval "$(pyenv init -)"
 }
+[[ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]] && \
+  source /opt/homebrew/etc/profile.d/bash_completion.sh
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/djrut/google-cloud-sdk/path.bash.inc' ]; then . '/Users/djrut/google-cloud-sdk/path.bash.inc'; fi
+if [ -f $HOME/google-cloud-sdk/path.bash.inc ]; then 
+  source $HOME/google-cloud-sdk/path.bash.inc; fi
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/djrut/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/djrut/google-cloud-sdk/completion.bash.inc'; fi
+if [ -f $HOME/google-cloud-sdk/completion.bash.inc ]; then
+  source $HOME/google-cloud-sdk/completion.bash.inc; fi
+
+command -v kubectl > /dev/null && source <(kubectl completion bash)
 # }}}
 # Prompt settings {{{
 PROMPT_COMMAND=prompt_command

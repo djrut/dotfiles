@@ -95,26 +95,30 @@ function vim() {
 }
 
 function preview() {
-  fd $1|fzf --preview="bat --color=always {}"
+  find . -name "$1" 2> /dev/null|fzf --preview="bat --color=always {}"
 }
 
 # }}}
 # Autocompletion settings {{{
 # Pyenv Settings
+command -v kubectl > /dev/null && source <(kubectl completion bash)
 command -v pyenv > /dev/null && { if [ -f $(pyenv root)/completions/pyenv.bash ]; then \
   source "$(pyenv root)/completions/pyenv.bash"; fi; \
   eval "$(pyenv init -)"
 }
+
 [[ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]] && \
   source /opt/homebrew/etc/profile.d/bash_completion.sh
-# The next line updates PATH for the Google Cloud SDK.
+
 if [ -f $HOME/google-cloud-sdk/path.bash.inc ]; then 
   source $HOME/google-cloud-sdk/path.bash.inc; fi
-# The next line enables shell command completion for gcloud.
+
 if [ -f $HOME/google-cloud-sdk/completion.bash.inc ]; then
   source $HOME/google-cloud-sdk/completion.bash.inc; fi
 
-command -v kubectl > /dev/null && source <(kubectl completion bash)
+if [ -f $HOME/git-completion.bash ]; then
+    source $HOME/git-completion.bash
+fi
 # }}}
 # Prompt settings {{{
 PROMPT_COMMAND=prompt_command

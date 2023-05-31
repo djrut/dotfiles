@@ -156,6 +156,28 @@ function install_vim_plugins {
   vim +'PlugInstall --sync' +qall && success || failure
 }
 # }}}
+# Function: install_gcloud {{{
+function install_gcloud {
+  h1 "Installing gcloud..."
+  if [ -d ~/.config/gcloud ]; then
+    echo "WARNING: ~/.config/gcloud directory already exists... skipping install."
+    failure
+  else
+    curl -sSL https://sdk.cloud.google.com | bash && success || failure
+  fi
+}
+# }}}
+# Function: install_git_completion {{{
+function install_git_completion {
+  h1 "Installing git-completion..."
+  if [ -f ~/.git-completion.bash ]; then
+    echo "WARNING: ~/.git-completion.bash file already exists... skipping install."
+    failure
+  else
+    curl -sSL https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash && success || failure
+  fi
+}
+# }}}
 # Entrypoint  {{{
 main "$@" #>> ${DEBUG_LOG} 2>&1
 

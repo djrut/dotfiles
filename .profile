@@ -15,6 +15,10 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   export PYTHON_CONFIGURE_OPTS="--enable-framework"
 fi
 
+shopt -s histappend
+export HISTCONTROL=ignoredups:erasedups:ignorespace
+export HISTFILESIZE=
+export HISTSIZE=
 export DIRENV_WARN_TIMEOUT=10s
 export JAVA_HOME=/Library/Java/Home
 export SYSTEM_VERSION_COMPAT=1

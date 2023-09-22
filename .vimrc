@@ -41,7 +41,8 @@ Plug '907th/vim-auto-save'
 " Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'vim-test/vim-test'
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
+" Plug 'madox2/vim-ai'
 call plug#end()
 " }}}
 " Features {{{

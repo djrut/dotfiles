@@ -20,8 +20,10 @@ alias gdiff='git difftool'
 alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'
 alias gss='git status -s'
 alias gcmsg='git commit -m'
-alias ptp='ptpython --vi'
+alias ptp='ptpython'
 alias tree='tree -C'
+alias top='bpytop'
+alias bat='bat --paging=never'
 # }}}
 # FZF Settings {{{
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --follow --glob "!*.git"'
@@ -101,7 +103,7 @@ function preview() {
 # }}}
 # Autocompletion settings {{{
 # Pyenv Settings
-command -v kubectl > /dev/null && source <(kubectl completion bash)
+# command -v kubectl > /dev/null && source <(kubectl completion bash)
 command -v pyenv > /dev/null && { if [ -f $(pyenv root)/completions/pyenv.bash ]; then \
   source "$(pyenv root)/completions/pyenv.bash"; fi; \
   eval "$(pyenv init -)"
@@ -130,3 +132,7 @@ eval "$(direnv hook bash)"
 # Metadata {{{
 # vim:foldmethod=marker:foldlevel=0
 # }}}
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/r393681/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

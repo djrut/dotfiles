@@ -1,3 +1,5 @@
 Session.vim
 tags
 .envrc
+.kube
+__pycache__

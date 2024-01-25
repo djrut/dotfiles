@@ -11,7 +11,7 @@ function main {
   install_dotfiles
   install_fzf
   source ~/.bash_profile
-  install_pyenv
+  # install_pyenv
   install_tmux_plugin_manager
   install_vim_plugins
 }
@@ -80,12 +80,15 @@ function install_packages {
 # Function: git_config {{{
 function git_config {
   h1 "Initializing global git config..."
-  git config --global user.name "Duncan Rutland" && \
-  git config --global user.email "rutland.duncan@heb.com" && \
-  git config --global status.submoduleSummary true && \
-  git config --global core.excludesFile '~/.gitignore_global' \
-  git config --global --add --bool push.autoSetupRemote true \
-  git config --global init.defaultBranch main && success || failure
+  git config --global user.name "Duncan Rutland"
+  git config --global user.email "rutland.duncan@heb.com"
+  git config --global status.submoduleSummary true
+  git config --global core.excludesFile '~/.gitignore_global'
+  git config --global --add --bool push.autoSetupRemote true
+  git config --global init.defaultBranch main
+  git config --global pull.rebase true
+  git config --global fetch.prune true
+  git config --global diff.colorMoved zebra
 }
 # }}}
 # Function: install_dotfiles {{{

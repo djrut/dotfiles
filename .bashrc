@@ -4,7 +4,7 @@
 # Aliases {{{
 alias ls='ls --color=auto'
 alias grep='grep --color'
-alias kc="kubectl"
+alias k="kubectl"
 alias gce="gcloud compute"
 alias gae="gcloud app"
 alias gke="gcloud container"
@@ -14,8 +14,8 @@ alias gccl="gcloud config configurations list"
 alias gssh="gcloud compute ssh"
 alias kcx='kubectl config use-context'
 alias kcl='kubectl config get-contexts'
-alias kbug='kubectl run debug --rm -i --tty --image=nicolaka/netshoot'
-alias glog='git --no-pager log --pretty=oneline --decorate -n16'
+alias kbug='kubectl run debug --rm -i --tty --image=harbor.heb.com/kon-public/docker.nexus.heb.tools/busybox@sha256:0a73c32b2e89731e8e676ef323f82a2cd7fd9e13f58487d62ee1c529de0d8d7a --privileged=false -n kon-admin'
+alias glog='git --no-pager log --pretty=oneline --decorate -n32'
 alias gdiff='git difftool'
 alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'
 alias gss='git status -s'
@@ -23,7 +23,6 @@ alias gcmsg='git commit -m'
 alias ptp='ptpython'
 alias tree='tree -C'
 alias top='bpytop'
-alias bat='bat --paging=never'
 # }}}
 # FZF Settings {{{
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --follow --glob "!*.git"'
@@ -71,7 +70,11 @@ function prompt_command() {
 
     git_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
     if [[ $? -eq 0 ]] ; then
-      GIT_BRANCH="[${git_branch}]"
+      if [ "${#git_branch}" -gt 32 ]; then
+        GIT_BRANCH="[${git_branch:0:29}...]"
+      else
+        GIT_BRANCH="[${git_branch}]"
+      fi
     else
       GIT_BRANCH=""
     fi
@@ -100,15 +103,6 @@ function preview() {
   find . -name "$1" 2> /dev/null|fzf --preview="bat --color=always {}"
 }
 
-# }}}
-# Autocompletion settings {{{
-# Pyenv Settings
-# command -v kubectl > /dev/null && source <(kubectl completion bash)
-command -v pyenv > /dev/null && { if [ -f $(pyenv root)/completions/pyenv.bash ]; then \
-  source "$(pyenv root)/completions/pyenv.bash"; fi; \
-  eval "$(pyenv init -)"
-}
-
 [[ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]] && \
   source /opt/homebrew/etc/profile.d/bash_completion.sh
 
@@ -127,7 +121,7 @@ PROMPT_COMMAND=prompt_command
 PROMPT_DIRTRIM=3
 # }}}
 # direnv settings {{{
-eval "$(direnv hook bash)"
+command -v direnv > /dev/null && eval "$(direnv hook bash)"
 # }}}
 # Metadata {{{
 # vim:foldmethod=marker:foldlevel=0

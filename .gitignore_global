@@ -3,3 +3,4 @@ tags
 .envrc
 .kube
 __pycache__
+.DS_Store

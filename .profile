@@ -7,7 +7,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   export PATH=/usr/local/git/current/bin:/usr/local/opt/python/libexec/bin
   export PATH=/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$PATH
   export PATH=/usr/local/bin:/usr/local/opt/gnu-sed/libexec/gnubin:$PATH
-  export PATH=/opt/homebrew/sbin:/opt/homebrew/bin:$HOME/.rd/bin:${HOME}/.krew/bin:$PATH
+  export PATH=/opt/homebrew/sbin:/opt/homebrew/bin:${HOME}/.krew/bin:$PATH
   export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
   export PATH=$HOME/google-cloud-sdk/bin:$HOME/.cargo/bin:$PATH
   export PATH=$HOME/bin:$HOME/scripts:$HOME/.fzf/bin:$PATH

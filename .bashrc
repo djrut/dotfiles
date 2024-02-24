@@ -14,7 +14,7 @@ alias gccl="gcloud config configurations list"
 alias gssh="gcloud compute ssh"
 alias kcx='kubectl config use-context'
 alias kcl='kubectl config get-contexts'
-alias kbug='kubectl run debug --rm -i --tty --image=harbor.heb.com/kon-public/docker.nexus.heb.tools/busybox@sha256:0a73c32b2e89731e8e676ef323f82a2cd7fd9e13f58487d62ee1c529de0d8d7a --privileged=false -n kon-admin'
+alias kbug='kubectl run debug --rm -i --tty --image=nicolaka/netshoot --privileged=false
 alias glog='git --no-pager log --pretty=oneline --decorate -n32'
 alias gdiff='git difftool'
 alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'
@@ -126,7 +126,3 @@ command -v direnv > /dev/null && eval "$(direnv hook bash)"
 # Metadata {{{
 # vim:foldmethod=marker:foldlevel=0
 # }}}
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/r393681/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

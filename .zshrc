@@ -12,6 +12,13 @@ function current_git_branch() {
     fi
     echo $GIT_BRANCH
 }
+
+function show_virtual_env() {
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    echo "[$(basename $VIRTUAL_ENV)]"
+  fi
+}
+
 # }}}
 # General Settings {{{
 export SYSTEM_VERSION_COMPAT=1
@@ -31,9 +38,10 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 # }}}
 # PROMPT settings {{{
-setopt PROMPT_SUBST
+setopt prompt_subst
+setopt share_history
 setopt INC_APPEND_HISTORY
-PROMPT="%n@%m:%F{014}[%d]%F{green}$(current_git_branch)%(?.%f$.%F{red}$) %f"
+PROMPT='%n@%m:%F{014}[%(4~|.../%3~|%~)]%F{green}$(current_git_branch)%F{red}$(show_virtual_env)%(?.%f$.%F{red}$)%f '
 # }}}
 # DIRENV settings {{{
 export DIRENV_WARN_TIMEOUT=10s

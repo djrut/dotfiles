@@ -11,7 +11,7 @@ function main {
   install_dotfiles
   install_fzf
   source ~/.bash_profile
-  # install_pyenv
+  install_pyenv
   install_tmux_plugin_manager
   install_vim_plugins
 }
@@ -81,7 +81,7 @@ function install_packages {
 function git_config {
   h1 "Initializing global git config..."
   git config --global user.name "Duncan Rutland"
-  git config --global user.email "rutland.duncan@heb.com"
+  git config --global user.email "duncan.rutland@thinkonward.com"
   git config --global status.submoduleSummary true
   git config --global core.excludesFile '~/.gitignore_global'
   git config --global --add --bool push.autoSetupRemote true
@@ -157,17 +157,6 @@ function install_tmux_plugin_manager {
 function install_vim_plugins {
   h1 "Installing Vim plugins..."
   vim +'PlugInstall --sync' +qall && success || failure
-}
-# }}}
-# Function: install_gcloud {{{
-function install_gcloud {
-  h1 "Installing gcloud..."
-  if [ -d ~/.config/gcloud ]; then
-    echo "WARNING: ~/.config/gcloud directory already exists... skipping install."
-    failure
-  else
-    curl -sSL https://sdk.cloud.google.com | bash && success || failure
-  fi
 }
 # }}}
 # Function: install_git_completion {{{

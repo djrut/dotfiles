@@ -1,6 +1,7 @@
 Session.vim
 tags
 .envrc
+.direnv
 .kube
 __pycache__
 .DS_Store

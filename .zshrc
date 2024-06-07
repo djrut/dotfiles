@@ -41,10 +41,10 @@ fi
 setopt prompt_subst
 setopt share_history
 setopt INC_APPEND_HISTORY
-PROMPT='%n@%m:%F{014}[%(4~|.../%3~|%~)]%F{green}$(current_git_branch)%F{red}$(show_virtual_env)%(?.%f$.%F{red}$)%f '
+PROMPT='%F{014}[%(4~|.../%3~|%~)]%F{green}$(current_git_branch)%F{red}$(show_virtual_env)%(?.%f$.%F{red}$)%f '
 # }}}
 # DIRENV settings {{{
-export DIRENV_WARN_TIMEOUT=10s
+export DIRENV_WARN_TIMEOUT=30s
 command -v direnv > /dev/null && eval "$(direnv hook zsh)"
 # }}}
 # FZF Settings {{{

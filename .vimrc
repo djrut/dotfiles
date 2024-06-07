@@ -33,16 +33,12 @@ Plug 'christoomey/vim-system-copy'
 Plug 'leissa/vim-acme'
 Plug 'gioele/vim-autoswap'
 Plug 'moll/vim-bbye'
-" Plug 'hashivim/vim-terraform'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asyncrun.extra'
 Plug 'preservim/vimux'
 Plug '907th/vim-auto-save'
-" Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-" Plug 'vim-test/vim-test'
 " Plug 'github/copilot.vim'
-" Plug 'madox2/vim-ai'
 call plug#end()
 " }}}
 " Features {{{
@@ -363,7 +359,7 @@ highlight ALEWarning ctermbg=LightRed
 " YouCompleteMe settings  {{{
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_python_interpreter_path = '/Users/djrut/.pyenv/shims/python'
+let g:ycm_python_interpreter_path = '$HOME/.pyenv/shims/python'
 " }}}
 " vim-test settings {{{
 " let test#strategy = "basic"

@@ -86,6 +86,7 @@ alias gcmsg='git commit -m'
 alias ptp='ptpython'
 alias tree='tree -C'
 alias top='bpytop'
+alias da='direnv allow'
 # }}}
 # Metadata {{{
 # vim:foldmethod=marker:foldlevel=0

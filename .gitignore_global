@@ -5,3 +5,7 @@ tags
 .kube
 __pycache__
 .DS_Store
+.terraform*
+.node_repl_history
+.cargo/
+.matplotlib/

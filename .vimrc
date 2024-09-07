@@ -9,6 +9,8 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'sheerun/vim-polyglot'
 Plug 'crusoexia/vim-monokai'
+Plug 'ghifarit53/tokyonight-vim'
+Plug 'tomasiser/vim-code-dark'
 Plug 'majutsushi/tagbar', { 'on':  'TagbarToggle'  }
 Plug 'mhinz/vim-grepper'
 Plug 'mhinz/vim-signify'
@@ -37,12 +39,11 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asyncrun.extra'
 Plug 'preservim/vimux'
 Plug '907th/vim-auto-save'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'github/copilot.vim'
 call plug#end()
 " }}}
 " Features {{{
-"
 set nocompatible                        " We're running Vim, not Vi!
 set encoding=utf-8
 syntax on                               " Enable syntax highlighting
@@ -52,7 +53,6 @@ filetype on
 packadd! matchit
 " }}}
 " UI Config {{{
-"
 set showcmd
 set cursorline
 set colorcolumn=80
@@ -76,14 +76,22 @@ set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
 set wildignore+=*.swp,.lock,.DS_Store,._*
 " }}}
 " Colors {{{
-"
 set t_Co=256
 set background=dark
-if filereadable(expand("$HOME/.vim/plugged/vim-monokai/colors/monokai.vim"))
-  colorscheme monokai 
-endif
+" if filereadable(expand("$HOME/.vim/plugged/vim-monokai/colors/monokai.vim"))
+"   colorscheme monokai 
+" endif
+" if filereadable(expand("$HOME/.vim/plugged/vim-code-dark/colors/codedark.vim"))
+"   colorscheme codedark 
+"   let g:airline_theme = 'codedark'
+" endif
+set termguicolors
+let g:tokyonight_style = 'night' " available: night, storm
+let g:tokyonight_enable_italic = 1
+colorscheme tokyonight
+
 let python_highlight_all=1
-highlight QuickFixLine cterm=bold ctermbg=DarkGrey ctermfg=White
+" highlight QuickFixLine cterm=bold ctermbg=DarkGrey ctermfg=White
 " }}}
 " Line numbering {{{
 "
